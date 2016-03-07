@@ -15,6 +15,9 @@ class PygameBrickBreakerView(object):
 
     def draw(self):
         """ Draw the game state to the screen """
+        myFont = pygame.font.SysFont("monospace",15)
+        game_over_font = pygame.font.SysFont("monospace",100)
+    
         self.screen.fill(pygame.Color('black'))
         # draw the bricks to the screen
         for top in range(len(self.model.temp_world)):
@@ -38,7 +41,13 @@ class PygameBrickBreakerView(object):
         r = pygame.Rect(self.model.vehicle.left,self.model.vehicle.top,self.model.vehicle.width,self.model.vehicle.height) #the mining vehicle
                      
         pygame.draw.rect(self.screen, pygame.Color('white'), r)
-       
+        
+        if 5*1000-self.model.get_elapsed_time() <= 0:
+            msg = game_over_font.render("GAME OVER",1,(255,255,0))
+            screen.blit(msg, (0, 240))
+        else:
+            timer = myFont.render(str(5-(self.model.get_elapsed_time()/1000)), 1, (255,255,0))
+            screen.blit(timer, (20,20))
         pygame.display.update()
 
 
@@ -110,7 +119,8 @@ class BrickBreakerModel(object):
 
         if what_side == "left":
             pass
-            
+    
+
             # for top in range (len(self.world)):
       #         for left in range(0,5):
       #             brick = Brick(self.FAR_LEFT - self.BRICK_WIDTH*(left+1), top, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
@@ -146,6 +156,9 @@ class BrickBreakerModel(object):
             self.FAR_RIGHT = self.world[0][-5].left #makes the threshold for creating more rightward blocks at 5 blocks from the rightmost column of blocks
             print "new self.right ", self.FAR_RIGHT
 
+
+    def get_elapsed_time(self):
+        return pygame.time.get_ticks()
 
 class PyGameKeyboardController(object):
     def __init__(self, model):
