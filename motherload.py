@@ -41,7 +41,10 @@ class PygameBrickBreakerView(object):
         r = pygame.Rect(self.model.vehicle.left,self.model.vehicle.top,self.model.vehicle.width,self.model.vehicle.height) #the mining vehicle
                      
         pygame.draw.rect(self.screen, pygame.Color('white'), r)
-        
+
+        r = pygame.Rect(self.model.fuel_station.left,self.model.fuel_station.top,self.model.fuel_station.width,self.model.fuel_station.height)
+        pygame.draw.rect(self.screen, pygame.Color('deep pink'),r) 
+ 
         if 5*1000-self.model.get_elapsed_time() <= 0:
             msg = game_over_font.render("GAME OVER",1,(255,255,0))
             screen.blit(msg, (0, 240))
@@ -75,6 +78,13 @@ class Brick(object):
             self.height = height
             self.color = choice(["red", "green", "orange", "blue", "purple"])
 
+class FuelStation(object):
+    """ Represents a fuel station as a pink block at fixed point"""
+    def __init__(self):
+        self.left = 400
+        self.top = 40
+        self.width = 40
+        self.height = 40
 
 class Vehicle(object):
     """ Represents the paddle in our brick breaker game """
@@ -113,6 +123,7 @@ class BrickBreakerModel(object):
 
 
         self.vehicle = Vehicle(40*8,40, 40, 40)
+        self.fuel_station = FuelStation()
 
     def world_enlarger(self, what_side):
         
@@ -176,7 +187,7 @@ class PyGameKeyboardController(object):
                     brick = self.model.temp_world[top][left]
                     brick.top += brick.height
         #   if self.model.bricks[0][0].top  
-
+            self.model.fuel_station.top += self.model.BRICK_HEIGHT
         
 
         if event.key == pygame.K_DOWN:
@@ -184,7 +195,8 @@ class PyGameKeyboardController(object):
                 for left in range(len(self.model.temp_world[top])):
                     brick = self.model.temp_world[top][left]
                     brick.top -= brick.height
-        print self.model.temp_world[0][0].top
+            self.model.fuel_station.top -= self.model.BRICK_HEIGHT
+        #print self.model.temp_world[0][0].top
 
            
 
@@ -196,6 +208,7 @@ class PyGameKeyboardController(object):
                     for left in range(len(self.model.temp_world[top])):
                         brick = self.model.temp_world[top][left]
                         brick.left += brick.width
+                self.model.fuel_station.left += self.model.BRICK_HEIGHT
             else:
                 return
 
@@ -214,6 +227,7 @@ class PyGameKeyboardController(object):
                     for left in range(len(self.model.temp_world[top])):
                         brick = self.model.temp_world[top][left]
                         brick.left -= brick.width
+                self.model.fuel_station.left -= self.model.BRICK_HEIGHT
             else:
                 return
             if self.model.world[0][-1].left == self.model.FAR_RIGHT: 
