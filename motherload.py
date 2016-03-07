@@ -3,7 +3,7 @@ from pygame.locals import QUIT, KEYDOWN, MOUSEMOTION
 import time
 from random import choice
 import random
-import model
+import game_model
 
 class PygameBrickBreakerView(object):
     """ Visualizes a brick breaker game in a pygame window """
@@ -142,9 +142,9 @@ if __name__ == '__main__':
     size = (640, 480)
     screen = pygame.display.set_mode(size)
 
-    game_model = model.BrickBreakerModel()
-    view = PygameBrickBreakerView(game_model, screen)
-    controller = PyGameKeyboardController(game_model)
+    model = game_model.BrickBreakerModel()
+    view = PygameBrickBreakerView(model, screen)
+    controller = PyGameKeyboardController(model)
     #controller = PyGameMouseController(model)
 
     running = True
