@@ -23,10 +23,15 @@ class PygameBrickBreakerView(object):
         		brick = self.model.temp_world[top][left]
 
         		r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
-           		pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
 
+        		if brick.left == self.model.vehicle.left and brick.top == self.model.vehicle.top:  #checks if the vehicle overlaps a block, if so change block to black
+        			brick.color = "black"
+        			pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
+           		else:
+           			pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
+           			
         
-        r = pygame.Rect(40*8,40,40,40) #the mining vehicle
+        r = pygame.Rect(self.model.vehicle.left,self.model.vehicle.top,self.model.vehicle.width,self.model.vehicle.height) #the mining vehicle
                      
         pygame.draw.rect(self.screen, pygame.Color('white'), r)
        
@@ -56,8 +61,8 @@ class Vehicle(object):
     """ Represents the paddle in our brick breaker game """
     def __init__(self, left, top, width, height):
         """ Initialize the paddle with the specified geometry """
-        self.left = left*width
-        self.top = top*height + height*4
+        self.left = left
+        self.top = top
         self.width = width
         self.height = height
 
@@ -88,7 +93,7 @@ class BrickBreakerModel(object):
         self.temp_world = self.world		
 
 
-        #self.vehicle = Vehicle(0,0, 40, 40)
+        self.vehicle = Vehicle(40*8,40, 40, 40)
 
     def world_enlarger(self, what_side):
     	
