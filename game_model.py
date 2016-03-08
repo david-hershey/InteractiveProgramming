@@ -69,7 +69,7 @@ class Brick(pygame.sprite.Sprite):
             self.image.fill((0,220,255))
         else:
             self.rect.x = left
-            self.rext.y = top
+            self.rect.y = top
             self.top = left
             self.left =  top
             self.width = width
