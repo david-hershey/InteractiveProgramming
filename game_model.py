@@ -92,6 +92,14 @@ class FuelStation(object):
         self.width = 40
         self.height = 40
 
+class Shop(object):
+    """ Represents a shop where the vehicle can sell a mineral"""
+    def __init__(self):
+        self.left = 480
+        self.top = 40
+        self.width = 40
+        self.height = 40
+
 class Vehicle(object):
     """ Represents the paddle in our brick breaker game """
     def __init__(self, left, top, width, height, cheatcode):
@@ -149,6 +157,7 @@ class BrickBreakerModel(object):
         cheatcode = "dpapp"
         self.vehicle = Vehicle(40*8,40, 40, 40, cheatcode)
         self.fuel_station = FuelStation()
+        self.shop = Shop()
 
     def world_enlarger(self, what_side):
         

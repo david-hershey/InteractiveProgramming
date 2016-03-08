@@ -82,9 +82,9 @@ class PygameBrickBreakerView(object):
         r = pygame.Rect(self.model.fuel_station.left,self.model.fuel_station.top,self.model.fuel_station.width,self.model.fuel_station.height)
         pygame.draw.rect(self.screen, pygame.Color('deep pink'),r) 
 
-        #print "fuel_station top coord: ", self.model.fuel_station.top
-        #print "vehicle top coord: ", self.model.vehicle.top
-        
+        r = pygame.Rect(self.model.shop.left,self.model.shop.top,self.model.shop.width,self.model.shop.height)
+        pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
+
         if self.model.fuel_station.left == self.model.vehicle.left and self.model.fuel_station.top == self.model.vehicle.top and self.model.fuel < self.model.max_fuel:
             self.model.fuel = self.model.max_fuel
  
