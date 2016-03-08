@@ -57,8 +57,8 @@ class Brick(pygame.sprite.Sprite):
             self.rect.y  = top*height + height*2  #starts the world with a 2 block high sky
             self.width = width
             self.height = height
-            self.top =  left*width - width*9
-            self.left =  top*height + height*2
+            self.top =   top*height + height*2
+            self.left =  left*width - width*9 
             random_seed = random.random()
             if random_seed < 0.1:
                 self.color = "black"
