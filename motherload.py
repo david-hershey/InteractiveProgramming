@@ -54,15 +54,19 @@ class PygameBrickBreakerView(object):
         r = pygame.Rect(self.model.fuel_station.left,self.model.fuel_station.top,self.model.fuel_station.width,self.model.fuel_station.height)
         pygame.draw.rect(self.screen, pygame.Color('deep pink'),r) 
 
-        if self.model.fuel_station.left == self.model.vehicle.left and self.model.fuel_station.top == self.model.vehicle.top and self.model.get_fuel < self.model.max_fuel:
-            self.model.fuel += 5
+        #print "fuel_station top coord: ", self.model.fuel_station.top
+        #print "vehicle top coord: ", self.model.vehicle.top
+        
+        if self.model.fuel_station.left == self.model.vehicle.left and self.model.fuel_station.top == self.model.vehicle.top and self.model.get_fuel() < self.model.get_max_fuel():
+            self.model.fuel = self.model.max_fuel
+            print "helloo"
  
-        # if self.model.get_fuel() <= 0:
-        #  #   msg = game_over_font.render("GAME OVER",1,(255,255,0))
-        #     #screen.blit(msg, (0, 240))
-        # else:
-        #     timer = myFont.render(str(self.model.get_fuel()), 1, (255,255,0))
-        #     screen.blit(timer, (20,20))
+        if self.model.get_fuel() <= 0:
+            msg = game_over_font.render("GAME OVER",1,(255,255,0))
+            screen.blit(msg, (0, 240))
+        else:
+            timer = myFont.render(str(self.model.get_fuel()), 1, (255,255,0))
+            screen.blit(timer, (20,20))
         pygame.display.update()
 
 
@@ -215,6 +219,6 @@ if __name__ == '__main__':
         	speed = 0
 
 	   	
-
+        model.fuel -= 1 #decrease fuel value every frame
         view.draw()
      #   clock.tick(500000000)
