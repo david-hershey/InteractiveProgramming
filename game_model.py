@@ -61,7 +61,7 @@ class BrickBreakerModel(object):
         self.FAR_BOTTOM = -680
 
       
-        self.init_height_dist = 34
+        self.init_height_dist = 32
         self.init_width_dist = 34
 
         #initialize world
@@ -110,15 +110,7 @@ class BrickBreakerModel(object):
 
 
         elif what_side == "down":
-            for top in range (len(self.world)):
-                for right in range(0,5):
-                    brick = Brick(self.FAR_RIGHT + self.BRICK_WIDTH*(right+1), top, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
-                    self.world[top].append(brick)
-            start_right = len(self.world[0]) - 34
-
-            self.temp_world = self.world[:][start_right:-1]
-            self.FAR_RIGHT = self.world[0][-5].left #makes the threshold for creating more rightward blocks at 5 blocks from the rightmost column of blocks
-            print "new self.right ", self.FAR_RIGHT
+            pass
 
     def get_fuel(self):
         return self.fuel*1000 - pygame.time.get_ticks()

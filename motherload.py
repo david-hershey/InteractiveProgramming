@@ -80,11 +80,19 @@ class PyGameKeyboardController(object):
         
 
         if event.key == pygame.K_DOWN:
-            for top in range(len(self.model.temp_world)):
-                for left in range(len(self.model.temp_world[top])):
-                    brick = self.model.temp_world[top][left]
-                    brick.top -= brick.height
-            self.model.fuel_station.top -= self.model.BRICK_HEIGHT
+        	if self.model.temp_world[-1][0].top != self.model.FAR_BOTTOM: 
+	            for top in range(len(self.model.temp_world)):
+	                for left in range(len(self.model.temp_world[top])):
+	                    brick = self.model.temp_world[top][left]
+	                    brick.top -= brick.height
+	            self.model.fuel_station.top -= self.model.BRICK_HEIGHT
+	        else:
+	            self.model.fuel_station.top -= self.model.BRICK_HEIGHT
+	            self.model.world_enlarger("down")
+	            for top in range(len(self.model.temp_world)):
+	                for left in range(len(self.model.temp_world[top])):
+	                    brick = self.model.temp_world[top][left]
+	                    brick.top -= brick.height
         #print self.model.temp_world[0][0].top
 
            
