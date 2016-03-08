@@ -62,6 +62,8 @@ class PygameBrickBreakerView(object):
                         print "I am eating ...", brick.color
                     if brick.color == "red":
                         self.model.red_block += 1
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
                     elif brick.color == "green":
                         self.model.green_block += 1
                     elif brick.color == "orange":
@@ -75,6 +77,7 @@ class PygameBrickBreakerView(object):
 
                 else:
                     pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
+                
                     
         
         r = pygame.Rect(self.model.vehicle.left,self.model.vehicle.top,self.model.vehicle.width,self.model.vehicle.height) #the mining vehicle
@@ -270,7 +273,7 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                         brick = model.temp_world[top][left]
                         brick.top -= speed
-                        brick.rect.y -= speed
+                        brick.rect.y = brick.top
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
@@ -290,7 +293,7 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                     brick = model.temp_world[top][left]
                     brick.top -= speed
-                    brick.rect.y -= speed
+                    brick.rect.y = brick.top
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
@@ -301,7 +304,7 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                     brick = model.temp_world[top][left]
                     brick.top -= speed
-                    brick.rect.y -= speed
+                    brick.rect.y = brick.top
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
