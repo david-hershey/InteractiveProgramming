@@ -68,6 +68,7 @@ class Brick(pygame.sprite.Sprite):
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
             if self.color == "red":
                 self.image = pygame.image.load('ruby.png').convert()
+                self.image.set_colorkey((255,255,255))
 
             #self.image.fill((0,220,255))
         else:
