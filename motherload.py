@@ -96,13 +96,27 @@ class PygameBrickBreakerView(object):
 
         r = pygame.Rect(self.model.fuel_station.left,self.model.fuel_station.top,self.model.fuel_station.width,self.model.fuel_station.height)
         pygame.draw.rect(self.screen, pygame.Color('deep pink'),r) 
+        self.model.sprite_list.draw(self.screen)
 
         r = pygame.Rect(self.model.shop.left,self.model.shop.top,self.model.shop.width,self.model.shop.height)
-        pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
+        #pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
 
         #Vehicle visiting fuel station
         if pygame.sprite.collide_rect(self.model.fuel_station, self.model.vehicle):
             self.model.fuel = self.model.max_fuel
+
+        #vehicle visiting shop
+        if pygame.sprite.collide_rect(self.model.shop, self.model.vehicle):
+            self.model.money += 100 * self.model.red_block
+            self.model.money += 100 * self.model.green_block
+            self.model.money += 100 * self.model.orange_block
+            self.model.money += 100 * self.model.blue_block
+            self.model.money += 100 * self.model.purple_block
+            self.model.red_block = 0
+            self.model.green_block = 0
+            self.model.orange_block = 0
+            self.model.blue_block = 0
+            self.model.purple_block = 0
 
      
         if self.model.fuel <= 0:
@@ -128,7 +142,7 @@ class PygameBrickBreakerView(object):
         screen.blit(purple_counter,(550,100))
 
         money_counter = myFont.render("Money: " + str(self.model.money), 1, (255,255, 0))
-        screen.blit(money_counter, (550,120))
+        screen.blit(money_counter, (500,120))
 
         pygame.display.update()
 
@@ -271,9 +285,9 @@ if __name__ == '__main__':
                         brick.top -= speed
                         brick.rect.y -= speed
             model.fuel_station.top -= speed
-            model.fuel_station.rect.y -= speed
+            model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
-            model.shop.rect.y -= speed
+            model.shop.rect.y = model.shop.top
 
             speed = speed + thruster;   
 
@@ -291,9 +305,9 @@ if __name__ == '__main__':
                     brick.top -= speed
                     brick.rect.y -= speed
             model.fuel_station.top -= speed
-            model.fuel_station.rect.y -= speed
+            model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
-            model.shop.rect.y -= speed
+            model.shop.rect.y = model.shop.top
 
         elif model.can_move_down and not keys[pygame.K_UP]:    
             for top in range(len(model.temp_world)):
@@ -302,9 +316,9 @@ if __name__ == '__main__':
                     brick.top -= speed
                     brick.rect.y -= speed
             model.fuel_station.top -= speed
-            model.fuel_station.rect.y -= speed
+            model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
-            model.shop.rect.y -= speed
+            model.shop.rect.y = model.shop.top
 
             speed = speed + gravity
             if speed > 10:
