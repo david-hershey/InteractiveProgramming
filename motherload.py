@@ -36,7 +36,7 @@ class PygameBrickBreakerView(object):
                         #print "can move down", model.can_move_down
 
                     else:
-                    	self.model.can_move_down = True
+                        self.model.can_move_down = True
                         #print "can move down", self.model.can_move_down
 
                 if self.model.vehicle.left + float(brick.width)/2 < brick.left and brick.left + float(brick.width)/2 > self.model.vehicle.left and not (brick.left > self.model.vehicle.left + float(brick.width)*3/2) \
@@ -140,20 +140,20 @@ class PyGameKeyboardController(object):
         
 
         # if event.key == pygame.K_DOWN:
-        # 	print self.model.temp_world[-1][0].top
-        # 	if self.model.temp_world[-1][0].top != self.model.FAR_BOTTOM: 
-	       #      for top in range(len(self.model.temp_world)):
-	       #          for left in range(len(self.model.temp_world[top])):
-	       #              brick = self.model.temp_world[top][left]
-	       #              brick.top -= brick.height
-	       #      self.model.fuel_station.top -= self.model.BRICK_HEIGHT
-	       #  else:
-	       #      self.model.fuel_station.top -= self.model.BRICK_HEIGHT
-	       #      self.model.world_enlarger("down")
-	       #      for top in range(len(self.model.temp_world)):
-	       #          for left in range(len(self.model.temp_world[top])):
-	       #              brick = self.model.temp_world[top][left]
-	       #              brick.top -= brick.height
+        #   print self.model.temp_world[-1][0].top
+        #   if self.model.temp_world[-1][0].top != self.model.FAR_BOTTOM: 
+           #      for top in range(len(self.model.temp_world)):
+           #          for left in range(len(self.model.temp_world[top])):
+           #              brick = self.model.temp_world[top][left]
+           #              brick.top -= brick.height
+           #      self.model.fuel_station.top -= self.model.BRICK_HEIGHT
+           #  else:
+           #      self.model.fuel_station.top -= self.model.BRICK_HEIGHT
+           #      self.model.world_enlarger("down")
+           #      for top in range(len(self.model.temp_world)):
+           #          for left in range(len(self.model.temp_world[top])):
+           #              brick = self.model.temp_world[top][left]
+           #              brick.top -= brick.height
         # #print self.model.temp_world[0][0].top
 
            
@@ -170,6 +170,7 @@ class PyGameKeyboardController(object):
                         brick = self.model.temp_world[top][left]
                         brick.left += brick.width
                 self.model.fuel_station.left += self.model.BRICK_HEIGHT
+                self.model.shop.left += self.model.BRICK_HEIGHT
             else:
                 return
 
@@ -185,6 +186,7 @@ class PyGameKeyboardController(object):
                         brick = self.model.temp_world[top][left]
                         brick.left -= brick.width
                 self.model.fuel_station.left -= self.model.BRICK_HEIGHT
+                self.model.shop.left -= self.model.BRICK_HEIGHT
             else:
                 return
             if self.model.world[0][-1].left == self.model.FAR_RIGHT: 
@@ -229,9 +231,9 @@ if __name__ == '__main__':
 
 
         if model.temp_world[-1][0].top >= model.FAR_BOTTOM and model.temp_world[-1][0].top < model.FAR_BOTTOM + 40: 
-        	mistake = model.FAR_BOTTOM - model.temp_world[-1][0].top
-        	print "enlarging world"
-        	model.world_enlarger("down")
+            mistake = model.FAR_BOTTOM - model.temp_world[-1][0].top
+            print "enlarging world"
+            model.world_enlarger("down")
 
 
         keys = pygame.key.get_pressed()  
@@ -242,8 +244,9 @@ if __name__ == '__main__':
                         brick = model.temp_world[top][left]
                         brick.top -= speed
             model.fuel_station.top -= speed
+            model.shop.top -= speed
 
-            speed = speed + thruster;	
+            speed = speed + thruster;   
 
             if speed > 1:
                 speed = 0
@@ -251,23 +254,25 @@ if __name__ == '__main__':
                 speed = 10
 
         elif keys[pygame.K_DOWN] and not model.can_move_down:
-        #	print "juss drilling"
-	    	speed = .7
-	    	for top in range(len(model.temp_world)):
-	            for left in range(len(model.temp_world[top])):
-	                    brick = model.temp_world[top][left]
-	                    brick.top -= speed
-	        model.fuel_station.top -= speed
+        #   print "juss drilling"
+            speed = .7
+            for top in range(len(model.temp_world)):
+                for left in range(len(model.temp_world[top])):
+                    brick = model.temp_world[top][left]
+                    brick.top -= speed
+            model.fuel_station.top -= speed
+            model.shop.top -= speed
 
-    	elif model.can_move_down and not keys[pygame.K_UP]:    
-	        for top in range(len(model.temp_world)):
-	            for left in range(len(model.temp_world[top])):
-	                    brick = model.temp_world[top][left]
-	                    brick.top -= speed
-	        model.fuel_station.top -= speed
-	        speed = speed + gravity
-	        if speed > 10:
-	        	speed = 10
+        elif model.can_move_down and not keys[pygame.K_UP]:    
+            for top in range(len(model.temp_world)):
+                for left in range(len(model.temp_world[top])):
+                    brick = model.temp_world[top][left]
+                    brick.top -= speed
+            model.fuel_station.top -= speed
+            model.shop.top -= speed
+            speed = speed + gravity
+            if speed > 10:
+                speed = 10
 
         # elif keys[pygame.K_RIGHT]:
         #     if not model.can_move_down:
@@ -287,25 +292,25 @@ if __name__ == '__main__':
 
 
       #   elif not model.can_move_down and keys[pygame.K_RIGHT]:
-	    	# speed = .7
-	    	# for top in range(len(model.temp_world)):
-	     #        for left in range(len(model.temp_world[top])):
-	     #                brick = model.temp_world[top][left]
-	     #                brick.left -= speed
-	     #    model.fuel_station.left -= speed
+            # speed = .7
+            # for top in range(len(model.temp_world)):
+         #        for left in range(len(model.temp_world[top])):
+         #                brick = model.temp_world[top][left]
+         #                brick.left -= speed
+         #    model.fuel_station.left -= speed
 
       #   elif not model.can_move_down and keys[pygame.K_LEFT]:
-	    	# speed = .7
-	    	# for top in range(len(model.temp_world)):
-	     #        for left in range(len(model.temp_world[top])):
-	     #                brick = model.temp_world[top][left]
-	     #                brick.left += speed
-	     #    model.fuel_station.left += speed
+            # speed = .7
+            # for top in range(len(model.temp_world)):
+         #        for left in range(len(model.temp_world[top])):
+         #                brick = model.temp_world[top][left]
+         #                brick.left += speed
+         #    model.fuel_station.left += speed
 
         if not model.can_move_down and event.type != KEYDOWN:
-        	speed = 0
+            speed = 0
 
-	   	
+        
         model.fuel -= 1 #decrease fuel value every frame
         view.draw()
         #print "can move right??", model.can_drill_right
