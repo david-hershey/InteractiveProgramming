@@ -316,14 +316,18 @@ if __name__ == '__main__':
                     brick = model.temp_world[top][left]
                     brick.top -= speed
                     brick.rect.y = brick.top
+<<<<<<< HEAD
+
+=======
+>>>>>>> e1e45cb10efd529c6d82dcc495d1c2808c6f68ae
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
             model.shop.rect.y = model.shop.top
 
             speed = speed + gravity
-            if speed > 10:
-                speed = 10
+            if speed > 12:
+                speed -=.5
 
         # elif keys[pygame.K_RIGHT]:
         #     if not model.can_move_down:
