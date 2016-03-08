@@ -211,6 +211,23 @@ if __name__ == '__main__':
 	        speed = speed + gravity
 	        if speed > 5:
 	        	speed = 5
+
+      #   elif not model.can_move_down and keys[pygame.K_RIGHT]:
+	    	# speed = .7
+	    	# for top in range(len(model.temp_world)):
+	     #        for left in range(len(model.temp_world[top])):
+	     #                brick = model.temp_world[top][left]
+	     #                brick.left -= speed
+	     #    model.fuel_station.left -= speed
+
+      #   elif not model.can_move_down and keys[pygame.K_LEFT]:
+	    	# speed = .7
+	    	# for top in range(len(model.temp_world)):
+	     #        for left in range(len(model.temp_world[top])):
+	     #                brick = model.temp_world[top][left]
+	     #                brick.left += speed
+	     #    model.fuel_station.left += speed
+
         if not model.can_move_down and event.type != KEYDOWN:
         	speed = 0
 
