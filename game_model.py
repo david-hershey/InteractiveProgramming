@@ -23,11 +23,17 @@ class Brick(object):
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
         else:
-            self.left = left 
-            self.top = top*height + height*2  #starts the world with a 2 block high sky
+            self.left = left*width - width*9 
+            self.top = top #starts the world with a 2 block high sky
             self.width = width
             self.height = height
-            self.color = choice(["red", "green", "orange", "blue", "purple"])
+            random_seed = random.random()
+            if random_seed < 0.1:
+                self.color = "black"
+            elif random_seed <0.9:
+                self.color = "brown"    
+            else:
+                self.color = choice(["red", "green", "orange", "blue", "purple"])
 
 class FuelStation(object):
     """ Represents a fuel station as a pink block at fixed point"""
@@ -58,11 +64,11 @@ class BrickBreakerModel(object):
         self.SCREEN_HEIGHT = 480 
         self.FAR_LEFT = 320 
         self.FAR_RIGHT = 320
-        self.FAR_BOTTOM = -680
+        self.FAR_BOTTOM = self.SCREEN_HEIGHT + self.BRICK_HEIGHT*4 #the threshold for adding more blocks is 5 blocks from the bottom of the screen
 
       
-        self.init_height_dist = 32
-        self.init_width_dist = 34
+        self.init_height_dist = 34 #number of rows of blocks
+        self.init_width_dist = 32 #number of columns of blocks
 
         #initialize world
         for top in range(0,self.init_height_dist):
@@ -111,6 +117,11 @@ class BrickBreakerModel(object):
 
         elif what_side == "down":
             pass
+            for top in range(0,5): # cycles through 5 blocks 
+                self.world.append([])#creates a row (list) to be filled with bricks
+                for left in range(0,self.init_width_dist):
+                    brick = Brick(left, self.SCREEN_HEIGHT+self.BRICK_HEIGHT*5 + top*self.BRICK_HEIGHT, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
+                    self.world[-1].append(brick)
 
     def get_fuel(self):
         return self.fuel*1000 - pygame.time.get_ticks()

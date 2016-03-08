@@ -80,6 +80,7 @@ class PyGameKeyboardController(object):
         
 
         if event.key == pygame.K_DOWN:
+        	print self.model.temp_world[-1][0].top
         	if self.model.temp_world[-1][0].top != self.model.FAR_BOTTOM: 
 	            for top in range(len(self.model.temp_world)):
 	                for left in range(len(self.model.temp_world[top])):
