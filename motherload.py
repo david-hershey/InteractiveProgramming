@@ -5,6 +5,7 @@ from random import choice
 import random
 import game_model
 import pygame, os, sys
+import math 
 
 
 class PygameBrickBreakerView(object):
@@ -27,18 +28,30 @@ class PygameBrickBreakerView(object):
             for left in range(len(self.model.temp_world[top])):
 
                 #pulls the appropriate brick model from the list
+
                 brick = self.model.temp_world[top][left]
 
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
                
-               
-                if brick.left == self.model.vehicle.left and brick.top <= self.model.vehicle.top + brick.height and brick.top + brick.height > self.model.vehicle.top + brick.height:  #checks if the vehicle overlaps a block, if so change block to black
+                # if pygame.sprite.collide_rect(brick, self.model.vehicle) and  brick.rect.y > self.model.vehicle.rect.y and math.fabs(brick.rect.x -  self.model.vehicle.rect.x) < 2:
+                #     print "absolute ", math.fabs(self.model.vehicle.rect.x - brick.rect.x)
+                #     print "colliding"
+                #     print "brick, x ", brick.rect.x 
+                #     print "brick, y ", brick.rect.y
+                #     print "veh x, ", self.model.vehicle.rect.x  
+                #     print "veh y, ", self.model.vehicle.rect.y
+
+                if brick.left == self.model.vehicle.left and brick.top <= self.model.vehicle.top + brick.height and brick.top + brick.height > self.model.vehicle.top + brick.height:
+
+              #checks if the vehicle overlaps a block, if so change block to black
                     if brick.color != "black":
                         self.model.can_move_down = False
+
                         #print "can move down", model.can_move_down
 
                     else:
                         self.model.can_move_down = True
+
                         #print "can move down", self.model.can_move_down
 
                 if self.model.vehicle.left + float(brick.width)/2 < brick.left and brick.left + float(brick.width)/2 > self.model.vehicle.left and not (brick.left > self.model.vehicle.left + float(brick.width)*3/2) \

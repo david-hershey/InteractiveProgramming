@@ -66,12 +66,12 @@ class Brick(pygame.sprite.Sprite):
                 self.color = "brown"    
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
-            self.image.fill((0,220,255))
+            #self.image.fill((0,220,255))
         else:
             self.rect.x = left
             self.rect.y = top
-            self.top = left
-            self.left =  top
+            self.top = top
+            self.left =  left
             self.width = width
             self.height = height
             random_seed = random.random()
@@ -81,7 +81,7 @@ class Brick(pygame.sprite.Sprite):
                 self.color = "brown"    
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
-            self.image.fill((0,220,255))
+            #self.image.fill((0,220,255))
 
 
 # class FuelStation(object):
