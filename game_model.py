@@ -62,11 +62,14 @@ class Brick(pygame.sprite.Sprite):
             random_seed = random.random()
             if random_seed < 0.1:
                 self.color = "black"
+                self.brick_type = "sky"
             elif random_seed <0.9:
-                self.color = "brown"    
+                self.color = "brown"
+                self.brick_type = "soil" 
             else:
-                self.color = choice(["red", "green", "orange", "blue", "purple"])
-            if self.color == "red":
+                self.color = "brown"
+                self.brick_type = choice(["ruby", "emerald", "amazonite", "sapphire", "watsonite"])
+            if self.brick_type == "ruby":
                 self.image = pygame.image.load('ruby.png').convert()
                 self.image.set_colorkey((255,255,255))
 
@@ -81,13 +84,16 @@ class Brick(pygame.sprite.Sprite):
             random_seed = random.random()
             if random_seed < 0.1:
                 self.color = "black"
+                self.brick_type = "sky"
             elif random_seed <0.9:
-                self.color = "brown"    
+                self.color = "blue"   
+                self.brick_type = "soil" 
             else:
-                self.color = choice(["red", "green", "orange", "blue", "purple"])
-            if self.color == "red":
+                self.color = "brown"
+                self.brick_type = choice(["ruby", "emerald", "amazonite", "sapphire", "watsonite"])
+            if self.brick_type == "ruby":
                 self.image = pygame.image.load('ruby.png').convert()
-
+                self.image.set_colorkey((255,255,255))
             #self.image.fill((0,220,255))
 
 
@@ -211,7 +217,7 @@ class BrickBreakerModel(object):
             for left in range(0,self.init_width_dist):
                 brick = Brick(left, top, self.BRICK_WIDTH, self.BRICK_HEIGHT, True)
                 self.world[top].append(brick)
-                if brick.color == "red":
+                if brick.brick_type == "ruby":
                     self.sprite_list.add(brick)
         self.temp_world = self.world        
 

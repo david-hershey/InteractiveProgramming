@@ -69,21 +69,22 @@ class PygameBrickBreakerView(object):
               #  print self.model.can_drill_right
 
                 if brick.left == self.model.vehicle.left and self.model.vehicle.top > brick.top and self.model.vehicle.top + brick.height < brick.top + brick.height*2: #checks if the vehicle overlaps a block, if so change block to black
-                    if brick.color != "black" and brick.color != "brown":
-                        print "I am eating ...", brick.color
-                    if brick.color == "red":
+                    if brick.brick_type != "sky" and brick.brick_type != "soil":
+                        print "I am eating ...", brick.brick_type
+                    if brick.brick_type == "ruby":
                         self.model.red_block += 1
                         brick.image.fill((0,0,0))
                         brick.image.set_colorkey((0,0,0))
-                    elif brick.color == "green":
+                    elif brick.brick_type == "emerald":
                         self.model.green_block += 1
-                    elif brick.color == "orange":
+                    elif brick.brick_type == "amazonite":
                         self.model.orange_block += 1
-                    elif brick.color == "blue":
+                    elif brick.brick_type == "sapphire":
                         self.model.blue_block += 1
-                    elif brick.color == "purple":
+                    elif brick.brick_type == "watsonite":
                         self.model.purple_block += 1
                     brick.color = "black"
+                    brick.brick_type = "sky"
                     pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
 
                 else:
