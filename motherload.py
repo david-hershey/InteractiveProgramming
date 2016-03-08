@@ -83,9 +83,10 @@ class PygameBrickBreakerView(object):
 
         r = pygame.Rect(self.model.fuel_station.left,self.model.fuel_station.top,self.model.fuel_station.width,self.model.fuel_station.height)
         pygame.draw.rect(self.screen, pygame.Color('deep pink'),r) 
+        self.model.sprite_list.draw(self.screen)
 
         r = pygame.Rect(self.model.shop.left,self.model.shop.top,self.model.shop.width,self.model.shop.height)
-        pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
+        #pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
 
         #Vehicle visiting fuel station
         if pygame.sprite.collide_rect(self.model.fuel_station, self.model.vehicle):
@@ -271,9 +272,9 @@ if __name__ == '__main__':
                         brick.top -= speed
                         brick.rect.y -= speed
             model.fuel_station.top -= speed
-            model.fuel_station.rect.y -= speed
+            model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
-            model.shop.rect.y -= speed
+            model.shop.rect.y = model.shop.top
 
             speed = speed + thruster;   
 
@@ -291,9 +292,9 @@ if __name__ == '__main__':
                     brick.top -= speed
                     brick.rect.y -= speed
             model.fuel_station.top -= speed
-            model.fuel_station.rect.y -= speed
+            model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
-            model.shop.rect.y -= speed
+            model.shop.rect.y = model.shop.top
 
         elif model.can_move_down and not keys[pygame.K_UP]:    
             for top in range(len(model.temp_world)):
@@ -302,9 +303,9 @@ if __name__ == '__main__':
                     brick.top -= speed
                     brick.rect.y -= speed
             model.fuel_station.top -= speed
-            model.fuel_station.rect.y -= speed
+            model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
-            model.shop.rect.y -= speed
+            model.shop.rect.y = model.shop.top
 
             speed = speed + gravity
             if speed > 10:
