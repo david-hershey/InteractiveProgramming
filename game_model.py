@@ -70,8 +70,8 @@ class Brick(pygame.sprite.Sprite):
         else:
             self.rect.x = left
             self.rext.y = top
-            self.top = left*width - width*9
-            self.left =  top*height + height*2
+            self.top = left
+            self.left =  top
             self.width = width
             self.height = height
             random_seed = random.random()
