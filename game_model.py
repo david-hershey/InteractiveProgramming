@@ -84,18 +84,56 @@ class Brick(pygame.sprite.Sprite):
             self.image.fill((0,220,255))
 
 
-class FuelStation(object):
-    """ Represents a fuel station as a pink block at fixed point"""
+# class FuelStation(object):
+#     """ Represents a fuel station as a pink block at fixed point"""
+#     def __init__(self):
+#         self.left = 400
+#         self.top = 40
+#         self.width = 40
+#         self.height = 40
+
+class FuelStation(pygame.sprite.Sprite):
+
+    # Constructor. Pass in the color of the block,
+    # and its x and y position
     def __init__(self):
+       # Call the parent class (Sprite) constructor
+        pygame.sprite.Sprite.__init__(self)
+
+       # Create an image of the block, and fill it with a color.
+       # This could also be an image loaded from the disk.
+        self.image = pygame.Surface([40, 40])
+
         self.left = 400
         self.top = 40
         self.width = 40
         self.height = 40
+        self.image.fill((0,255,255))
 
-class Vehicle(object):
-    """ Represents the paddle in our brick breaker game """
+       # Fetch the rectangle object that has the dimensions of the image
+       # Update the position of this object by setting the values of rect.x and rect.y
+        self.rect = self.image.get_rect()
+        self.rect.x = 400
+        self.rect.y = 404
+
+
+class Vehicle(pygame.sprite.Sprite):
+
+    # Constructor. Pass in the color of the block,
+    # and its x and y position
     def __init__(self, left, top, width, height, cheatcode):
-        """ Initialize the paddle with the specified geometry """
+       # Call the parent class (Sprite) constructor
+        pygame.sprite.Sprite.__init__(self)
+
+       # Create an image of the block, and fill it with a color.
+       # This could also be an image loaded from the disk.
+        self.image = pygame.Surface([width, height])
+      
+
+       # Fetch the rectangle object that has the dimensions of the image
+       # Update the position of this object by setting the values of rect.x and rect.y
+        self.rect = self.image.get_rect()
+
         self.left = left
         self.top = top
         self.width = width
@@ -103,8 +141,13 @@ class Vehicle(object):
         self.thruster = False
         self.cheatcode = cheatcode
         self.speed = 0
+
         self.gravity = .1
         self.thruster_veloc = -.1
+        
+        self.rect.x = left
+        self.rect.y = top
+        self.image.fill((0,220,255))
 
 
 class BrickBreakerModel(object):
