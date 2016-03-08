@@ -86,8 +86,17 @@ class BrickBreakerModel(object):
                 self.world[top].append(brick)
         self.temp_world = self.world        
 
-        self.fuel = 50000
-        self.max_fuel = 100000
+        self.fuel = 500
+        self.max_fuel = 1000
+
+        #counter for minerals
+        self.red_block = 0
+        self.green_block = 0
+        self.orange_block = 0    
+        self.blue_block = 0
+        self.purple_block = 0
+         
+       
         cheatcode = "dpapp"
         self.vehicle = Vehicle(40*8,40, 40, 40, cheatcode)
         self.fuel_station = FuelStation()
@@ -109,12 +118,6 @@ class BrickBreakerModel(object):
 
                     brick = Brick(left, self.world[-2][0].top + self.BRICK_HEIGHT, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
                     self.world[-1].append(brick)
-
-    def get_fuel(self):
-        return self.fuel
-
-    def get_max_fuel(self):
-        return self.max_fuel
 
     def get_elapsed_time(self):
         return pygame.time.get_ticks()

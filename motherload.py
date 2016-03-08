@@ -39,7 +39,16 @@ class PygameBrickBreakerView(object):
                 if brick.left == self.model.vehicle.left and self.model.vehicle.top > brick.top and self.model.vehicle.top + brick.height < brick.top + brick.height*2: #checks if the vehicle overlaps a block, if so change block to black
                     if brick.color != "black" and brick.color != "brown":
                         print "I am eating ...", brick.color
-
+                    if brick.color == "red":
+                        self.model.red_block += 1
+                    elif brick.color == "green":
+                        self.model.green_block += 1
+                    elif brick.color == "orange":
+                        self.model.orange_block += 1
+                    elif brick.color == "blue":
+                        self.model.blue_block += 1
+                    elif brick.color == "purple":
+                        self.model.purple_block += 1
                     brick.color = "black"
                     pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
 
@@ -57,16 +66,31 @@ class PygameBrickBreakerView(object):
         #print "fuel_station top coord: ", self.model.fuel_station.top
         #print "vehicle top coord: ", self.model.vehicle.top
         
-        if self.model.fuel_station.left == self.model.vehicle.left and self.model.fuel_station.top == self.model.vehicle.top and self.model.get_fuel() < self.model.get_max_fuel():
+        if self.model.fuel_station.left == self.model.vehicle.left and self.model.fuel_station.top == self.model.vehicle.top and self.model.fuel < self.model.max_fuel:
             self.model.fuel = self.model.max_fuel
-            print "helloo"
  
-        if self.model.get_fuel() <= 0:
+        if self.model.fuel <= 0:
             msg = game_over_font.render("GAME OVER",1,(255,255,0))
             screen.blit(msg, (0, 240))
         else:
-            timer = myFont.render(str(self.model.get_fuel()), 1, (255,255,0))
+            timer = myFont.render(str(self.model.fuel), 1, (255,255,0))
             screen.blit(timer, (20,20))
+
+        red_counter = myFont.render("Red: " + str(self.model.red_block), 1, (255,255,0))
+        screen.blit(red_counter,(550,20))
+        
+        green_counter = myFont.render("Green: " + str(self.model.green_block), 1, (255,255,0))
+        screen.blit(green_counter,(550,40))
+
+        orange_counter = myFont.render("Orange: " + str(self.model.orange_block), 1, (255,255,0))
+        screen.blit(orange_counter,(550,60))
+        
+        blue_counter = myFont.render("Blue: " + str(self.model.blue_block), 1, (255,255,0))
+        screen.blit(blue_counter,(550,80))
+        
+        purple_counter = myFont.render("Purplpe: " + str(self.model.purple_block), 1, (255,255,0))
+        screen.blit(purple_counter,(550,100))
+
         pygame.display.update()
 
 
