@@ -194,8 +194,8 @@ class BrickBreakerModel(object):
         self.FAR_BOTTOM = self.SCREEN_HEIGHT + self.BRICK_HEIGHT*4 #the threshold for adding more blocks is 5 blocks from the bottom of the screen
 
       
-        self.init_height_dist = 34 #number of rows of blocks
-        self.init_width_dist = 32 #number of columns of blocks
+        self.init_height_dist = 32 #number of rows of blocks
+        self.init_width_dist = 34 #number of columns of blocks
 
         #initialize world
         for top in range(0,self.init_height_dist):
