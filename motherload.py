@@ -33,15 +33,10 @@ class PygameBrickBreakerView(object):
 
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
                
-                # if pygame.sprite.collide_rect(brick, self.model.vehicle) and  brick.rect.y > self.model.vehicle.rect.y and math.fabs(brick.rect.x -  self.model.vehicle.rect.x) < 2:
-                #     print "absolute ", math.fabs(self.model.vehicle.rect.x - brick.rect.x)
-                #     print "colliding"
-                #     print "brick, x ", brick.rect.x 
-                #     print "brick, y ", brick.rect.y
-                #     print "veh x, ", self.model.vehicle.rect.x  
-                #     print "veh y, ", self.model.vehicle.rect.y
+                if pygame.sprite.collide_rect(brick, self.model.vehicle) and  brick.rect.y > self.model.vehicle.rect.y and math.fabs(brick.rect.x - self.model.vehicle.rect.x) < 2:
+              
 
-                if brick.left == self.model.vehicle.left and brick.top <= self.model.vehicle.top + brick.height and brick.top + brick.height > self.model.vehicle.top + brick.height:
+                # if brick.left == self.model.vehicle.left and brick.top <= self.model.vehicle.top + brick.height and brick.top + brick.height > self.model.vehicle.top + brick.height:
 
               #checks if the vehicle overlaps a block, if so change block to black
                     if brick.color != "black":
@@ -51,14 +46,17 @@ class PygameBrickBreakerView(object):
 
                     else:
                         self.model.can_move_down = True
+                # elif not pygame.sprite.collide_rect(brick, self.model.vehicle):
+                #     self.model.can_move_down = False
 
                         #print "can move down", self.model.can_move_down
+               
 
                 if self.model.vehicle.left + float(brick.width)/2 < brick.left and brick.left + float(brick.width)/2 > self.model.vehicle.left and not (brick.left > self.model.vehicle.left + float(brick.width)*3/2) \
                      and brick.top > self.model.vehicle.top - brick.width/2 and brick.top + brick.height < self.model.vehicle.top + float(brick.width)*3/2: #checks if the vehicle has a block to the right
                     if brick.color != "black" and not model.can_move_down:
                         self.model.can_drill_right = True
-                      #  print "can move right", self.model.can_drill_right
+                        #print "can move right", self.model.can_drill_right
                     else:
                         self.model.can_drill_right = False
                        # print "can move right", self.model.can_drill_right
@@ -68,7 +66,7 @@ class PygameBrickBreakerView(object):
                         # print "brick top", brick.top
                         # print "veh top", self.model.vehicle.top
                         # print "can drill right,", model.can_drill_right
-
+              #  print self.model.can_drill_right
 
                 if brick.left == self.model.vehicle.left and self.model.vehicle.top > brick.top and self.model.vehicle.top + brick.height < brick.top + brick.height*2: #checks if the vehicle overlaps a block, if so change block to black
                     if brick.color != "black" and brick.color != "brown":
@@ -96,27 +94,15 @@ class PygameBrickBreakerView(object):
 
         r = pygame.Rect(self.model.fuel_station.left,self.model.fuel_station.top,self.model.fuel_station.width,self.model.fuel_station.height)
         pygame.draw.rect(self.screen, pygame.Color('deep pink'),r) 
+
         self.model.sprite_list.draw(self.screen)
 
         r = pygame.Rect(self.model.shop.left,self.model.shop.top,self.model.shop.width,self.model.shop.height)
-        #pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
+        #subpygame.draw.rect(self.screen, pygame.Color('yellow'), r)
 
         #Vehicle visiting fuel station
         if pygame.sprite.collide_rect(self.model.fuel_station, self.model.vehicle):
             self.model.fuel = self.model.max_fuel
-
-        #vehicle visiting shop
-        if pygame.sprite.collide_rect(self.model.shop, self.model.vehicle):
-            self.model.money += 100 * self.model.red_block
-            self.model.money += 100 * self.model.green_block
-            self.model.money += 100 * self.model.orange_block
-            self.model.money += 100 * self.model.blue_block
-            self.model.money += 100 * self.model.purple_block
-            self.model.red_block = 0
-            self.model.green_block = 0
-            self.model.orange_block = 0
-            self.model.blue_block = 0
-            self.model.purple_block = 0
 
      
         if self.model.fuel <= 0:
@@ -142,7 +128,7 @@ class PygameBrickBreakerView(object):
         screen.blit(purple_counter,(550,100))
 
         money_counter = myFont.render("Money: " + str(self.model.money), 1, (255,255, 0))
-        screen.blit(money_counter, (500,120))
+        screen.blit(money_counter, (550,120))
 
         pygame.display.update()
 
@@ -283,7 +269,7 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                         brick = model.temp_world[top][left]
                         brick.top -= speed
-                        brick.rect.y -= speed
+                        brick.rect.y = brick.top
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
@@ -303,7 +289,7 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                     brick = model.temp_world[top][left]
                     brick.top -= speed
-                    brick.rect.y -= speed
+                    brick.rect.y = brick.top
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
@@ -314,7 +300,9 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                     brick = model.temp_world[top][left]
                     brick.top -= speed
-                    brick.rect.y -= speed
+                    brick.rect.y = brick.top
+           
+
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed

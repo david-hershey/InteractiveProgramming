@@ -54,10 +54,10 @@ class Brick(pygame.sprite.Sprite):
        
         if first:
             self.rect.x  = left*width - width*9 #renders 9 extra columns of blocks off screen to the left
-            self.rect.y  = top*height + height*2  #starts the world with a 2 block high sky
-            self.width = width
+            self.rect.y  = top*height + height*2 - 1 #starts the world with a 2 block high sky
+            self.width = width 
             self.height = height
-            self.top =   top*height + height*2
+            self.top =   top*height + height*2 -1 
             self.left =  left*width - width*9 
             random_seed = random.random()
             if random_seed < 0.1:
