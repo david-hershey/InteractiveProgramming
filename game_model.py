@@ -23,8 +23,8 @@ class Brick(object):
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
         else:
-            self.left = left*width - width*9 
-            self.top = top #starts the world with a 2 block high sky
+            self.left = left
+            self.top = top 
             self.width = width
             self.height = height
             random_seed = random.random()
@@ -56,7 +56,7 @@ class Vehicle(object):
         self.speed = 0
         self.gravity = .1
         self.thruster_veloc = -.1
-        
+
 
 class BrickBreakerModel(object):
     """ Stores the game state for our brick breaker game """
@@ -107,7 +107,7 @@ class BrickBreakerModel(object):
                 for left in range(0,self.init_width_dist):
 
 
-                    brick = Brick(left, self.world[-2][0].top + self.BRICK_HEIGHT, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
+                    brick = Brick(self.world[0][0].left+left*self.BRICK_WIDTH, self.world[-2][0].top + self.BRICK_HEIGHT, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
                     self.world[-1].append(brick)
 
     def get_fuel(self):

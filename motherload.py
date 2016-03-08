@@ -32,9 +32,28 @@ class PygameBrickBreakerView(object):
                
                 if brick.left == self.model.vehicle.left and brick.top <= self.model.vehicle.top + brick.height and brick.top + brick.height > self.model.vehicle.top + brick.height:  #checks if the vehicle overlaps a block, if so change block to black
                     if brick.color != "black":
-                        model.can_move_down = False
+                        self.model.can_move_down = False
+                        #print "can move down", model.can_move_down
+
                     else:
-                    	model.can_move_down = True
+                    	self.model.can_move_down = True
+                        #print "can move down", self.model.can_move_down
+
+                if self.model.vehicle.left + float(brick.width)/2 < brick.left and brick.left + float(brick.width)/2 > self.model.vehicle.left and not (brick.left > self.model.vehicle.left + float(brick.width)*3/2) \
+                     and brick.top > self.model.vehicle.top - brick.width/2 and brick.top + brick.height < self.model.vehicle.top + float(brick.width)*3/2: #checks if the vehicle has a block to the right
+                    if brick.color != "black" and not model.can_move_down:
+                        self.model.can_drill_right = True
+                      #  print "can move right", self.model.can_drill_right
+                    else:
+                        self.model.can_drill_right = False
+                       # print "can move right", self.model.can_drill_right
+                        # print "can move?", model.can_move_down
+                        # print "vehicle left", self.model.vehicle.left
+                        # print "brick left ", brick.left
+                        # print "brick top", brick.top
+                        # print "veh top", self.model.vehicle.top
+                        # print "can drill right,", model.can_drill_right
+
 
                 if brick.left == self.model.vehicle.left and self.model.vehicle.top > brick.top and self.model.vehicle.top + brick.height < brick.top + brick.height*2: #checks if the vehicle overlaps a block, if so change block to black
                     if brick.color != "black" and brick.color != "brown":
@@ -157,8 +176,8 @@ if __name__ == '__main__':
   
   
     speed = 0;
-    gravity = 0.1;
-    thruster = -0.1
+    gravity = 0.5;
+    thruster = -0.05
     pygame.init()
     size = (640, 480)
     screen = pygame.display.set_mode(size)
@@ -173,6 +192,8 @@ if __name__ == '__main__':
             if event.type == QUIT:
                 running = False
             controller.handle_event(event)
+        model.can_drill_right = False
+
 
         if model.temp_world[-1][0].top >= model.FAR_BOTTOM and model.temp_world[-1][0].top < model.FAR_BOTTOM + 40: 
         	mistake = model.FAR_BOTTOM - model.temp_world[-1][0].top
@@ -181,17 +202,20 @@ if __name__ == '__main__':
 
 
         keys = pygame.key.get_pressed()  
-    	if keys[pygame.K_UP]:
-    		for top in range(len(model.temp_world)):
-	            for left in range(len(model.temp_world[top])):
-	                    brick = model.temp_world[top][left]
-	                    brick.top -= speed
-	        model.fuel_station.top -= speed
+        if keys[pygame.K_UP]:
 
-	        speed = speed + thruster;	
+            for top in range(len(model.temp_world)):
+                for left in range(len(model.temp_world[top])):
+                        brick = model.temp_world[top][left]
+                        brick.top -= speed
+            model.fuel_station.top -= speed
 
-	        if speed > 1:
-	            speed = 0
+            speed = speed + thruster;	
+
+            if speed > 1:
+                speed = 0
+            elif speed > 10:
+                speed = 10
 
         elif keys[pygame.K_DOWN] and not model.can_move_down:
         #	print "juss drilling"
@@ -202,15 +226,32 @@ if __name__ == '__main__':
 	                    brick.top -= speed
 	        model.fuel_station.top -= speed
 
-    	elif model.can_move_down:    
+    	elif model.can_move_down and not keys[pygame.K_UP]:    
 	        for top in range(len(model.temp_world)):
 	            for left in range(len(model.temp_world[top])):
 	                    brick = model.temp_world[top][left]
 	                    brick.top -= speed
 	        model.fuel_station.top -= speed
 	        speed = speed + gravity
-	        if speed > 5:
-	        	speed = 5
+	        if speed > 10:
+	        	speed = 10
+
+        elif keys[pygame.K_RIGHT]:
+            if not model.can_move_down:
+                speed = .7
+                for top in range(len(model.temp_world)):
+                    for left in range(len(model.temp_world[top])):
+                            brick = model.temp_world[top][left]
+                            brick.left -= speed
+                model.fuel_station.left -= speed
+
+            else: 
+                for top in range(len(model.temp_world)):
+                    for left in range(len(model.temp_world[top])):
+                            brick = model.temp_world[top][left]
+                            brick.left -= speed
+                model.fuel_station.left -= speed
+
 
       #   elif not model.can_move_down and keys[pygame.K_RIGHT]:
 	    	# speed = .7
@@ -234,4 +275,5 @@ if __name__ == '__main__':
 	   	
 
         view.draw()
+        #print "can move right??", model.can_drill_right
      #   clock.tick(500000000)
