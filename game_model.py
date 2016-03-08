@@ -66,6 +66,9 @@ class Brick(pygame.sprite.Sprite):
                 self.color = "brown"    
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
+            if self.color == "red":
+                self.image = pygame.image.load('ruby.png').convert()
+
             #self.image.fill((0,220,255))
         else:
             self.rect.x = left
@@ -81,6 +84,9 @@ class Brick(pygame.sprite.Sprite):
                 self.color = "brown"    
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
+            if self.color == "red":
+                self.image = pygame.image.load('ruby.png').convert()
+
             #self.image.fill((0,220,255))
 
 
@@ -197,12 +203,15 @@ class BrickBreakerModel(object):
         self.init_height_dist = 32 #number of rows of blocks
         self.init_width_dist = 34 #number of columns of blocks
 
+        self.sprite_list = pygame.sprite.Group() #a list of sprites to be drawn
         #initialize world
         for top in range(0,self.init_height_dist):
             self.world.append([])
             for left in range(0,self.init_width_dist):
                 brick = Brick(left, top, self.BRICK_WIDTH, self.BRICK_HEIGHT, True)
                 self.world[top].append(brick)
+                if brick.color == "red":
+                    self.sprite_list.add(brick)
         self.temp_world = self.world        
 
         self.fuel = 500
@@ -220,7 +229,6 @@ class BrickBreakerModel(object):
         cheatcode = "dpapp"
         self.vehicle = Vehicle(40*8,40, 40, 40, cheatcode)
 
-        self.sprite_list = pygame.sprite.Group() #a list of sprites to be drawn
         self.fuel_station = FuelStation()
         self.sprite_list.add(self.fuel_station)
         self.shop = Shop()
