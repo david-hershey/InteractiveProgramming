@@ -12,7 +12,7 @@ class Brick(object):
     def __init__(self, left, top, width, height, first):
         if first:
             self.left = left*width - width*9 #renders 9 extra columns of blocks off screen to the left
-            self.top = top*height + height*2 #starts the world with a 2 block high sky
+            self.top = top*height + height*2  #starts the world with a 2 block high sky
             self.width = width
             self.height = height
             random_seed = random.random()
@@ -45,17 +45,25 @@ class FuelStation(object):
 
 class Vehicle(object):
     """ Represents the paddle in our brick breaker game """
-    def __init__(self, left, top, width, height):
+    def __init__(self, left, top, width, height, cheatcode):
         """ Initialize the paddle with the specified geometry """
         self.left = left
         self.top = top
         self.width = width
         self.height = height
+        self.thruster = False
+        self.cheatcode = cheatcode
+        self.speed = 0
+        self.gravity = .1
+        self.thruster_veloc = -.1
+        
 
 class BrickBreakerModel(object):
     """ Stores the game state for our brick breaker game """
     def __init__(self):
        #self.bricks = [][]
+        self.enlarger_helper = None
+        self.can_move_down = False  #checks if the blocks free to fall downward
         self.world = [] 
         self.MARGIN = 0
         self.BRICK_WIDTH = 40
@@ -80,47 +88,26 @@ class BrickBreakerModel(object):
 
         self.fuel = 5
         self.max_fuel = 10
-    
-        self.vehicle = Vehicle(40*8,40, 40, 40)
+        cheatcode = "dpapp"
+        self.vehicle = Vehicle(40*8,40, 40, 40, cheatcode)
         self.fuel_station = FuelStation()
 
     def world_enlarger(self, what_side):
         
-
         if what_side == "left":
             pass
-    
-
-            # for top in range (len(self.world)):
-      #         for left in range(0,5):
-      #             brick = Brick(self.FAR_LEFT - self.BRICK_WIDTH*(left+1), top, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
-      #             self.world[top].insert(0,brick)
-
-      #     self.temp_world = self.world[:][0:34]
-      #     self.FAR_LEFT = self.world[0][4].left #makes the threshold for creating more leftward blocks at 5 blocks from the leftmost column of blocks
-
 
         elif what_side == "right":
             pass
-        
-            # for top in range (len(self.world)):
-      #         for right in range(0,5):
-      #             brick = Brick(self.FAR_RIGHT + self.BRICK_WIDTH*(right+1), top, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
-      #             self.world[top].append(brick)
-
-      #     start_right = len(self.world[0]) - 34
-
-      #     self.temp_world = self.world[:][start_right:-1]
-      #     self.FAR_RIGHT = self.world[0][-5].left #makes the threshold for creating more rightward blocks at 5 blocks from the rightmost column of blocks
-      #     print "new self.right ", self.FAR_RIGHT
-
 
         elif what_side == "down":
-            pass
+          
             for top in range(0,5): # cycles through 5 blocks 
-                self.world.append([])#creates a row (list) to be filled with bricks
+                self.world.append([]) #creates a row (list) to be filled with bricks
                 for left in range(0,self.init_width_dist):
-                    brick = Brick(left, self.SCREEN_HEIGHT+self.BRICK_HEIGHT*5 + top*self.BRICK_HEIGHT, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
+
+
+                    brick = Brick(left, self.world[-2][0].top + self.BRICK_HEIGHT, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
                     self.world[-1].append(brick)
 
     def get_fuel(self):
