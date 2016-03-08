@@ -1,9 +1,11 @@
-import pygame
-from pygame.locals import QUIT, KEYDOWN, MOUSEMOTION
+import pygame, os, sys
+from pygame.locals import *
 import time
 from random import choice
 import random
 import game_model
+import pygame, os, sys
+
 
 class PygameBrickBreakerView(object):
     """ Visualizes a brick breaker game in a pygame window """
@@ -86,10 +88,10 @@ class PygameBrickBreakerView(object):
         pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
 
         #Vehicle visiting fuel station
-        if self.model.fuel_station.left == self.model.vehicle.left and self.model.fuel_station.top == self.model.vehicle.top and self.model.fuel < self.model.max_fuel:
+        if pygame.sprite.collide_rect(self.model.fuel_station, self.model.vehicle):
             self.model.fuel = self.model.max_fuel
 
- 
+     
         if self.model.fuel <= 0:
             msg = game_over_font.render("GAME OVER",1,(255,255,0))
             screen.blit(msg, (0, 240))
@@ -169,8 +171,14 @@ class PyGameKeyboardController(object):
                     for left in range(len(self.model.temp_world[top])):
                         brick = self.model.temp_world[top][left]
                         brick.left += brick.width
+                        brick.rect.x += brick.width #sprites stuff
                 self.model.fuel_station.left += self.model.BRICK_HEIGHT
+                self.model.fuel_station.rect.x += self.model.BRICK_HEIGHT
                 self.model.shop.left += self.model.BRICK_HEIGHT
+                self.model.shop.rect.x += self.model.BRICK_HEIGHT
+                # print self.model.fuel_station.left
+                # print self.model.fuel_station.rect.x
+           
             else:
                 return
 
@@ -185,8 +193,13 @@ class PyGameKeyboardController(object):
                     for left in range(len(self.model.temp_world[top])):
                         brick = self.model.temp_world[top][left]
                         brick.left -= brick.width
+                        brick.rect.x -= brick.width
                 self.model.fuel_station.left -= self.model.BRICK_HEIGHT
-                self.model.shop.left -= self.model.BRICK_HEIGHT
+                self.model.fuel_station.rect.x -= self.model.BRICK_HEIGHT
+                self.model.shop.left -= self.model.BRICK_HEIGHT                
+                self.model.shop.rect.x -= self.model.BRICK_HEIGHT
+                # print self.model.fuel_station.left
+                # print self.model.fuel_station.rect.x
             else:
                 return
             if self.model.world[0][-1].left == self.model.FAR_RIGHT: 
@@ -243,8 +256,11 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                         brick = model.temp_world[top][left]
                         brick.top -= speed
+                        brick.rect.y -= speed
             model.fuel_station.top -= speed
+            model.fuel_station.rect.y -= speed
             model.shop.top -= speed
+            model.shop.rect.y -= speed
 
             speed = speed + thruster;   
 
@@ -260,16 +276,23 @@ if __name__ == '__main__':
                 for left in range(len(model.temp_world[top])):
                     brick = model.temp_world[top][left]
                     brick.top -= speed
+                    brick.rect.y -= speed
             model.fuel_station.top -= speed
+            model.fuel_station.rect.y -= speed
             model.shop.top -= speed
+            model.shop.rect.y -= speed
 
         elif model.can_move_down and not keys[pygame.K_UP]:    
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
                     brick = model.temp_world[top][left]
                     brick.top -= speed
+                    brick.rect.y -= speed
             model.fuel_station.top -= speed
+            model.fuel_station.rect.y -= speed
             model.shop.top -= speed
+            model.shop.rect.y -= speed
+
             speed = speed + gravity
             if speed > 10:
                 speed = 10
