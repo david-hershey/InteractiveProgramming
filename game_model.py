@@ -7,14 +7,58 @@ import time
     Class containing game model and all its components
 """
 
-class Brick(object):
-    """ Represents a brick in our brick breaker game """
+# class Brick(object):
+#     """ Represents a brick in our brick breaker game """
+#     def __init__(self, left, top, width, height, first):
+#         if first:
+#             self.left = left*width - width*9 #renders 9 extra columns of blocks off screen to the left
+#             self.top = top*height + height*2  #starts the world with a 2 block high sky
+#             self.width = width
+#             self.height = height
+#             random_seed = random.random()
+#             if random_seed < 0.1:
+#                 self.color = "black"
+#             elif random_seed <0.9:
+#                 self.color = "brown"    
+#             else:
+#                 self.color = choice(["red", "green", "orange", "blue", "purple"])
+#         else:
+#             self.left = left
+#             self.top = top 
+#             self.width = width
+#             self.height = height
+#             random_seed = random.random()
+#             if random_seed < 0.1:
+#                 self.color = "black"
+#             elif random_seed <0.9:
+#                 self.color = "brown"    
+#             else:
+#                 self.color = choice(["red", "green", "orange", "blue", "purple"])
+
+class Brick(pygame.sprite.Sprite):
+
+    # Constructor. Pass in the color of the block,
+    # and its x and y position
     def __init__(self, left, top, width, height, first):
+       # Call the parent class (Sprite) constructor
+        pygame.sprite.Sprite.__init__(self)
+
+       # Create an image of the block, and fill it with a color.
+       # This could also be an image loaded from the disk.
+        self.image = pygame.Surface([width, height])
+       
+
+       # Fetch the rectangle object that has the dimensions of the image
+       # Update the position of this object by setting the values of rect.x and rect.y
+        self.rect = self.image.get_rect()
+       
         if first:
-            self.left = left*width - width*9 #renders 9 extra columns of blocks off screen to the left
-            self.top = top*height + height*2  #starts the world with a 2 block high sky
+            self.rect.x  = left*width - width*9 #renders 9 extra columns of blocks off screen to the left
+            self.rect.y  = top*height + height*2  #starts the world with a 2 block high sky
             self.width = width
             self.height = height
+            self.top =  left*width - width*9
+            self.left =  top*height + height*2
             random_seed = random.random()
             if random_seed < 0.1:
                 self.color = "black"
@@ -22,9 +66,12 @@ class Brick(object):
                 self.color = "brown"    
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
+            self.image.fill((0,220,255))
         else:
-            self.left = left
-            self.top = top 
+            self.rect.x = left
+            self.rext.y = top
+            self.top = left*width - width*9
+            self.left =  top*height + height*2
             self.width = width
             self.height = height
             random_seed = random.random()
@@ -34,6 +81,8 @@ class Brick(object):
                 self.color = "brown"    
             else:
                 self.color = choice(["red", "green", "orange", "blue", "purple"])
+            self.image.fill((0,220,255))
+
 
 class FuelStation(object):
     """ Represents a fuel station as a pink block at fixed point"""
