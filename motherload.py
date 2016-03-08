@@ -82,11 +82,13 @@ class PygameBrickBreakerView(object):
         r = pygame.Rect(self.model.fuel_station.left,self.model.fuel_station.top,self.model.fuel_station.width,self.model.fuel_station.height)
         pygame.draw.rect(self.screen, pygame.Color('deep pink'),r) 
 
-        #print "fuel_station top coord: ", self.model.fuel_station.top
-        #print "vehicle top coord: ", self.model.vehicle.top
-        
+        r = pygame.Rect(self.model.shop.left,self.model.shop.top,self.model.shop.width,self.model.shop.height)
+        pygame.draw.rect(self.screen, pygame.Color('yellow'), r)
+
+        #Vehicle visiting fuel station
         if self.model.fuel_station.left == self.model.vehicle.left and self.model.fuel_station.top == self.model.vehicle.top and self.model.fuel < self.model.max_fuel:
             self.model.fuel = self.model.max_fuel
+
  
         if self.model.fuel <= 0:
             msg = game_over_font.render("GAME OVER",1,(255,255,0))
@@ -109,6 +111,9 @@ class PygameBrickBreakerView(object):
         
         purple_counter = myFont.render("Purplpe: " + str(self.model.purple_block), 1, (255,255,0))
         screen.blit(purple_counter,(550,100))
+
+        money_counter = myFont.render("Money: " + str(self.model.money), 1, (255,255, 0))
+        screen.blit(money_counter, (550,120))
 
         pygame.display.update()
 

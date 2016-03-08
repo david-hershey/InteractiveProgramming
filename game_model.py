@@ -117,10 +117,19 @@ class FuelStation(pygame.sprite.Sprite):
         self.rect.y = 404
 
 
+
+class Shop(object):
+    """ Represents a shop where the vehicle can sell a mineral"""
+    def __init__(self):
+        self.left = 480
+        self.top = 40
+        self.width = 40
+        self.height = 40
+
 class Vehicle(pygame.sprite.Sprite):
 
-    # Constructor. Pass in the color of the block,
-    # and its x and y position
+    """ Represents the paddle in our brick breaker game """
+
     def __init__(self, left, top, width, height, cheatcode):
        # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
@@ -187,11 +196,13 @@ class BrickBreakerModel(object):
         self.orange_block = 0    
         self.blue_block = 0
         self.purple_block = 0
-         
+        
+        self.money = 0 
        
         cheatcode = "dpapp"
         self.vehicle = Vehicle(40*8,40, 40, 40, cheatcode)
         self.fuel_station = FuelStation()
+        self.shop = Shop()
 
     def world_enlarger(self, what_side):
         
