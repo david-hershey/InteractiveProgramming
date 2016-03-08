@@ -304,11 +304,6 @@ if __name__ == '__main__':
                     brick = model.temp_world[top][left]
                     brick.top -= speed
                     brick.rect.y = brick.top
-<<<<<<< HEAD
-           
-
-=======
->>>>>>> 6e383bc0d34896cf2e17d4047255c0c45de4d126
             model.fuel_station.top -= speed
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed
