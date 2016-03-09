@@ -35,7 +35,7 @@ class Brick(pygame.sprite.Sprite):
             random_seed = random.random()
             if random_seed < 0.1:
                 self.color = "black"
-                self.brick_type = "sky"
+                self.brick_type = "empty"
             elif random_seed <0.9:
                 self.color = "brown"
                 self.brick_type = "soil" 
@@ -67,8 +67,8 @@ class Brick(pygame.sprite.Sprite):
             self.height = height
             random_seed = random.random()
             if random_seed < 0.1:
-                self.color = "brown"
-                self.brick_type = "sky"
+                self.color = "black"
+                self.brick_type = "empty"
             elif random_seed <0.9:
                 self.color = "brown"   
                 self.brick_type = "soil" 
@@ -90,7 +90,6 @@ class Brick(pygame.sprite.Sprite):
             elif self.brick_type == "watsonite":
                 self.image = pygame.image.load('watsonite.png').convert()
                 self.image.set_colorkey((255,255,255))
-            self.color = "brown"
             #self.image.fill((0,220,255))
 
 
@@ -257,7 +256,7 @@ class BrickBreakerModel(object):
 
                     brick = Brick(self.world[0][0].left+left*self.BRICK_WIDTH, self.world[-2][0].top + self.BRICK_HEIGHT, self.BRICK_WIDTH, self.BRICK_HEIGHT, False)
                     self.world[-1].append(brick)
-                    if brick.brick_type != "soil":
+                    if brick.brick_type != "soil" and brick.brick_type != "empty":
                         self.sprite_list.add(brick)
 
     def get_elapsed_time(self):
