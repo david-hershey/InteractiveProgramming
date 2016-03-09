@@ -215,7 +215,7 @@ class BrickBreakerModel(object):
             for left in range(0,self.init_width_dist):
                 brick = Brick(left, top, self.BRICK_WIDTH, self.BRICK_HEIGHT, True)
                 self.world[top].append(brick)
-                if brick.brick_type != "sky" and brick.brick_type != "soil":
+                if brick.brick_type != "empty" and brick.brick_type != "soil":
                     self.sprite_list.add(brick)
         self.temp_world = self.world        
 
