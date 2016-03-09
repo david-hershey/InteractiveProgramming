@@ -77,12 +77,20 @@ class PygameBrickBreakerView(object):
                         brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "emerald":
                         self.model.green_block += 1
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "amazonite":
                         self.model.orange_block += 1
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "sapphire":
                         self.model.blue_block += 1
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "watsonite":
                         self.model.purple_block += 1
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
                     brick.color = "black"
                     brick.brick_type = "sky"
                     pygame.draw.rect(self.screen, pygame.Color(brick.color), r)

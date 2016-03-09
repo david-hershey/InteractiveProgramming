@@ -72,7 +72,18 @@ class Brick(pygame.sprite.Sprite):
             if self.brick_type == "ruby":
                 self.image = pygame.image.load('ruby.png').convert()
                 self.image.set_colorkey((255,255,255))
-
+            elif self.brick_type == "emerald":
+                self.image = pygame.image.load('emerald.png').convert()
+                self.image.set_colorkey((0,0,0))
+            elif self.brick_type == "amazonite":
+                self.image = pygame.image.load('amazonite.png').convert()
+                self.image.set_colorkey((0,0,0))
+            elif self.brick_type == "sapphire":
+                self.image = pygame.image.load('sapphire.png').convert()
+                self.image.set_colorkey((0,0,0))
+            elif self.brick_type == "watsonite":
+                self.image = pygame.image.load('watsonite.png').convert()
+                self.image.set_colorkey((255,255,255))
             #self.image.fill((0,220,255))
         else:
             self.rect.x = left
@@ -94,6 +105,15 @@ class Brick(pygame.sprite.Sprite):
             if self.brick_type == "ruby":
                 self.image = pygame.image.load('ruby.png').convert()
                 self.image.set_colorkey((255,255,255))
+            elif self.brick_type == "emerald":
+                self.image = pygame.image.load('emerald.png').convert()
+                self.image.set_colorkey((0,0,0))
+            elif self.brick_type == "amazonite":
+                self.image = pygame.image.load('amazonite.png').convert()
+                self.image.set_colorkey((0,0,0))
+            elif self.brick_type == "sapphire":
+                self.image = pygame.image.load('sapphire.png').convert()
+                self.image.set_colorkey((0,0,0))
             #self.image.fill((0,220,255))
 
 
@@ -217,7 +237,7 @@ class BrickBreakerModel(object):
             for left in range(0,self.init_width_dist):
                 brick = Brick(left, top, self.BRICK_WIDTH, self.BRICK_HEIGHT, True)
                 self.world[top].append(brick)
-                if brick.brick_type == "ruby":
+                if brick.brick_type != "sky" and brick.brick_type != "soil":
                     self.sprite_list.add(brick)
         self.temp_world = self.world        
 
