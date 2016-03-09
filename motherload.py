@@ -357,6 +357,7 @@ if __name__ == '__main__':
                     brick = model.temp_world[top][left]
                     brick.left -= speed_x
                     brick.rect.x = brick.left
+                    
             model.fuel_station.left -= speed_x
             model.fuel_station.rect.x = model.fuel_station.left
             model.shop.left -= speed_x
@@ -392,9 +393,8 @@ if __name__ == '__main__':
 
             model.fuel_station.top -= speed_y
 
-            model.fuel_station.top -= speed_y
-
             model.fuel_station.rect.y = model.fuel_station.top
+
             model.shop.top -= speed_y
             model.shop.rect.y = model.shop.top
 
