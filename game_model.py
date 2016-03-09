@@ -97,7 +97,7 @@ class Brick(pygame.sprite.Sprite):
                 self.color = "black"
                 self.brick_type = "sky"
             elif random_seed <0.9:
-                self.color = "blue"   
+                self.color = "brown"   
                 self.brick_type = "soil" 
             else:
                 self.color = "brown"
@@ -114,6 +114,9 @@ class Brick(pygame.sprite.Sprite):
             elif self.brick_type == "sapphire":
                 self.image = pygame.image.load('sapphire.png').convert()
                 self.image.set_colorkey((0,0,0))
+            elif self.brick_type == "watsonite":
+                self.image = pygame.image.load('watsonite.png').convert()
+                self.image.set_colorkey((255,255,255))
             #self.image.fill((0,220,255))
 
 
