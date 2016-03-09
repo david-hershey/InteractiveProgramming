@@ -42,6 +42,7 @@ class PygameBrickBreakerView(object):
 
                     else:
                         self.model.can_move_down = True
+
         
                 if (not model.can_move_down) and (brick.left + brick.width >= self.model.vehicle.left) \
                  and (brick.left < self.model.vehicle.left) and math.fabs(brick.top-self.model.vehicle.top) < 9:  #checks if the vehicles can/should drill left
@@ -66,23 +67,55 @@ class PygameBrickBreakerView(object):
  
           
 
-                if math.fabs(brick.left - self.model.vehicle.left) < 9 and math.fabs(self.model.vehicle.top - brick.top)<9: #and self.model.vehicle.top + brick.height < brick.top + brick.height*2: #checks if the vehicle overlaps a block, if so change block to black
-                    if brick.color != "black" and brick.color != "brown":
-                        print "I am eating ...", brick.color
-                    if brick.color == "red":
+                # elif not pygame.sprite.collide_rect(brick, self.model.vehicle):
+                #     self.model.can_move_down = False
+
+                        #print "can move down", self.model.can_move_down
+               
+
+                if self.model.vehicle.left + float(brick.width)/2 < brick.left and brick.left + float(brick.width)/2 > self.model.vehicle.left and not (brick.left > self.model.vehicle.left + float(brick.width)*3/2) \
+                     and brick.top > self.model.vehicle.top - brick.width/2 and brick.top + brick.height < self.model.vehicle.top + float(brick.width)*3/2: #checks if the vehicle has a block to the right
+                    if brick.color != "black" and not model.can_move_down:
+                        self.model.can_drill_right = True
+                        #print "can move right", self.model.can_drill_right
+                    else:
+                        self.model.can_drill_right = False
+                       # print "can move right", self.model.can_drill_right
+                        # print "can move?", model.can_move_down
+                        # print "vehicle left", self.model.vehicle.left
+                        # print "brick left ", brick.left
+                        # print "brick top", brick.top
+                        # print "veh top", self.model.vehicle.top
+                        # print "can drill right,", model.can_drill_right
+              #  print self.model.can_drill_right
+
+                if math.fabs(brick.left - self.model.vehicle.left) < 9 and math.fabs(self.model.vehicle.top - brick.top)<9: #checks if the vehicle overlaps a block, if so change block to black
+                    if brick.brick_type != "sky" and brick.brick_type != "soil":
+                        print "I am eating ...", brick.brick_type
+                    if brick.brick_type == "ruby":
                         self.model.red_block += 1
                         brick.image.fill((0,0,0))
                         brick.image.set_colorkey((0,0,0))
-                    elif brick.color == "green":
+                    elif brick.brick_type == "emerald":
                         self.model.green_block += 1
-                    elif brick.color == "orange":
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
+                    elif brick.brick_type == "amazonite":
                         self.model.orange_block += 1
-                    elif brick.color == "blue":
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
+                    elif brick.brick_type == "sapphire":
                         self.model.blue_block += 1
-                    elif brick.color == "purple":
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
+                    elif brick.brick_type == "watsonite":
                         self.model.purple_block += 1
 
+                        brick.image.fill((0,0,0))
+                        brick.image.set_colorkey((0,0,0))
+
                     brick.color = "black"
+                    brick.brick_type = "sky"
                     pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
 
                 else:
@@ -356,7 +389,11 @@ if __name__ == '__main__':
                     brick.top -= speed_y
                     brick.rect.y = brick.top
 
+
             model.fuel_station.top -= speed_y
+
+            model.fuel_station.top -= speed_y
+
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed_y
             model.shop.rect.y = model.shop.top
