@@ -33,9 +33,11 @@ class PygameBrickBreakerView(object):
 
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
                #pygame.sprite.collide_rect(brick, self.model.vehicle)
-                if self.model.vehicle.top + brick.height + 9 >= brick.top and self.model.vehicle.top < brick.top and math.fabs(brick.rect.x - self.model.vehicle.rect.x) < 9:
+               	#check for overlap in x direct:
+               	#if self.model.vehicle.can_drill_right and (self.model.vehicle.left < brick.left)
 
-              #checks if the vehicle overlaps a block, if so change block to black
+                if self.model.vehicle.top + brick.height + 2 >= brick.top and self.model.vehicle.top < brick.top and math.fabs(brick.rect.x - self.model.vehicle.rect.x) < 9: #checks for collision underneath
+  
                     if brick.color != "black":
                         self.model.can_move_down = False
 
@@ -357,7 +359,7 @@ if __name__ == '__main__':
                     brick = model.temp_world[top][left]
                     brick.left -= speed_x
                     brick.rect.x = brick.left
-                    
+
             model.fuel_station.left -= speed_x
             model.fuel_station.rect.x = model.fuel_station.left
             model.shop.left -= speed_x
