@@ -304,7 +304,7 @@ if __name__ == '__main__':
     pygame.init()
     size = (640, 480)
     screen = pygame.display.set_mode(size)
-    model = game_model.BrickBreakerModel()
+    model = game_model.BrickModel()
     view = PygameBrickBreakerView(model, screen)
     controller = PyGameKeyboardController(model)
 
