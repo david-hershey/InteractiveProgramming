@@ -210,7 +210,7 @@ class Vehicle(pygame.sprite.Sprite):
         self.image.fill((0,220,255))
 
 
-class BrickBreakerModel(object):
+class BrickModel(object):
     """ Stores the game state for our brick breaker game """
     def __init__(self):
        #self.bricks = [][]
