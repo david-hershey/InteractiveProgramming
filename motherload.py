@@ -111,23 +111,27 @@ class PygameBrickBreakerView(object):
                         print "I am eating ...", brick.brick_type
                     if brick.brick_type == "ruby":
                         self.model.red_block += 1
+                        self.model.score += 100
                         brick.image.fill((0,0,0))
                         brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "emerald":
                         self.model.green_block += 1
+                        self.model.score += 100
                         brick.image.fill((0,0,0))
                         brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "amazonite":
                         self.model.orange_block += 1
+                        self.model.score += 100
                         brick.image.fill((0,0,0))
                         brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "sapphire":
                         self.model.blue_block += 1
+                        self.model.score += 100
                         brick.image.fill((0,0,0))
                         brick.image.set_colorkey((0,0,0))
                     elif brick.brick_type == "watsonite":
                         self.model.purple_block += 1
-
+                        self.model.score += 100
                         brick.image.fill((0,0,0))
                         brick.image.set_colorkey((0,0,0))
 
@@ -169,6 +173,12 @@ class PygameBrickBreakerView(object):
             self.model.blue_block = 0
             self.model.purple_block = 0
      
+        #Vehicle visiting workshop
+        if pygame.sprite.collide_rect(self.model.workshop, self.model.vehicle):
+            if self.model.money >= 500:
+                self.model.money -= 500
+                self.model.max_fuel += 500
+
         if self.model.fuel <= 0:
             msg = game_over_font.render("GAME OVER",1,(255,255,0))
             screen.blit(msg, (0, 240))
@@ -177,22 +187,25 @@ class PygameBrickBreakerView(object):
             screen.blit(timer, (20,20))
 
         red_counter = myFont.render("Red: " + str(self.model.red_block), 1, (255,255,0))
-        screen.blit(red_counter,(550,20))
+        screen.blit(red_counter,(540,20))
         
         green_counter = myFont.render("Green: " + str(self.model.green_block), 1, (255,255,0))
-        screen.blit(green_counter,(550,40))
+        screen.blit(green_counter,(540,40))
 
         orange_counter = myFont.render("Orange: " + str(self.model.orange_block), 1, (255,255,0))
-        screen.blit(orange_counter,(550,60))
+        screen.blit(orange_counter,(540,60))
         
         blue_counter = myFont.render("Blue: " + str(self.model.blue_block), 1, (255,255,0))
-        screen.blit(blue_counter,(550,80))
+        screen.blit(blue_counter,(540,80))
         
         purple_counter = myFont.render("Purplpe: " + str(self.model.purple_block), 1, (255,255,0))
-        screen.blit(purple_counter,(550,100))
+        screen.blit(purple_counter,(540,100))
 
         money_counter = myFont.render("Money: " + str(self.model.money), 1, (255,255, 0))
-        screen.blit(money_counter, (550,120))
+        screen.blit(money_counter, (540,120))
+
+        score_counter = myFont.render("Score: " + str(self.model.score), 1, (255,255, 0))
+        screen.blit(score_counter, (540,140))
 
         pygame.display.update()
 
