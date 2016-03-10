@@ -47,6 +47,13 @@ class PygameBrickBreakerView(object):
                     tl = True
                     tr = True
 
+                    l = True
+                    r = True
+
+                    bl = True
+                    b = True
+                    br = True
+
                     if pygame.sprite.collide_rect(brick,self.model.vehicle):
 
                         if pygame.sprite.collide_rect(self.model.vehicle,brick_left):  #checks collision with left
@@ -89,12 +96,12 @@ class PygameBrickBreakerView(object):
                         elif not pygame.sprite.collide_rect(self.model.vehicle,brick_top_right):
                             tr = False
 
-                        if brick.color == "black" and brick_bottom.color == "black":
-                            print "gravity is TRUE"
+                        #if brick.color == "black" and brick_bottom.color == "black":
+                            #print "gravity is TRUE"
 
                         #Collision detection using sprite collision
-                        print "tl",tl,"t: ",t, "tr", tr
                         if t and not tl and not tr:
+                        #print "tl",tl,"t: ",t, "tr", tr
                             if brick_top.color == "black":
                                 self.model.vehicle.can_move_up = True
                             else:
@@ -111,7 +118,56 @@ class PygameBrickBreakerView(object):
                                 self.model.vehicle.can_move_up = False
                         else:
                             self.model.vehicle.can_move_up = True
-                        
+
+                        if b and not bl and not br:
+                            if brick_bottom.color == "black":
+                                self.model.can_move_down = True
+                            else:
+                                self.model.can_move_down = False
+                        elif b and bl:
+                            if brick_bottom.color == "black" and brick_bottom_left == "black":
+                                self.model.can_move_down = True
+                            else:
+                                self.model.can_move_down = False
+                        elif b and br:
+                            if brick_bottom.color == "black" and brick_bottom_right.color == "black":
+                                self.model.can_move_down = True
+                            else:
+                                self.model.can_move_down = False
+                        elif brick.color == "black" and not b and not bl and not br:
+                            self.model.can_move_down = True
+                
+                        if l and bl:
+                            if brick_left.color == "black":
+                                self.model.vehicle.can_move_left = True
+                            else:
+                                self.model.vehicle.can_move_left = False
+
+                        if r and br:
+                            if brick_right.color == "black":
+                                self.model.vehicle.can_move_right = True
+                            else:
+                                self.model.vehicle.can_move_right = False
+
+                        #Checks for drilling availability
+                        if l and b and not self.model.can_move_down:
+                            if brick_left.color != "black" and brick_bottom.color != "black":
+                                #print "CAN DRILL!!"
+                                self.model.vehicle.can_drill_left = True
+                            else:
+                                self.model.vehicle.can_drill_left = False
+
+                        if r and b and not self.model.can_move_down:
+                            if brick_right.color != "black" and brick_bottom.color != "black":
+                                self.model.vehicle.can_drill_right = True
+                            else:
+                                self.model.vehicle.can_drill_right = False
+
+                        if b:
+                            if brick_bottom.color != "black":
+                                self.model.vehicle.can_drill_down = True
+                            else:
+                                self.model.vehicle.can_drill_down = False                        
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
              
            
@@ -134,7 +190,7 @@ class PygameBrickBreakerView(object):
                         self.model.vehicle.can_move_up = True
                       
                     else:
-                        self.model.vehicle.can_move_up = False"""
+                        self.model.vehicle.can_move_up = False
 
                 #checks if the bottom of the vehicle + 6 px is more than or equal to the top of a brick and the top of the vehicle is less than the top of that brick and if its the brick in the same column
                 if self.model.vehicle.top + self.model.vehicle.height + 3 >= brick.top and self.model.vehicle.top < brick.top and brick.rect.x - self.model.vehicle.rect.x < 9:
@@ -148,7 +204,7 @@ class PygameBrickBreakerView(object):
                         self.model.can_move_down = True
                     else:
                         self.model.can_move_down = False
-
+"""
 
                 if self.model.vehicle.top + self.model.vehicle.height + 3 >= brick.top and self.model.vehicle.top < brick.top and  brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                     # print "x side of brick", brick.rect.x
@@ -174,7 +230,7 @@ class PygameBrickBreakerView(object):
 
 
         
-                if (not model.can_move_down) and (brick.left + brick.width >= self.model.vehicle.left) \
+                """if (not model.can_move_down) and (brick.left + brick.width >= self.model.vehicle.left) \
                  and (brick.left < self.model.vehicle.left) and math.fabs(brick.top-self.model.vehicle.top) < 9:  #checks if the vehicles can/should drill left
                     
                     if brick.color != "black":
@@ -182,8 +238,8 @@ class PygameBrickBreakerView(object):
                         self.model.vehicle.can_drill_left = True
                     else:
              
-                        self.model.vehicle.can_drill_left = False
-                    
+                        self.model.vehicle.can_drill_left = False"""
+                   
           
 
                 if (not model.can_move_down) and (self.model.vehicle.left + brick.width >= brick.left) \
@@ -425,12 +481,11 @@ if __name__ == '__main__':
 
         if model.temp_world[-1][0].top >= model.FAR_BOTTOM and model.temp_world[-1][0].top < model.FAR_BOTTOM + 40: 
             mistake = model.FAR_BOTTOM - model.temp_world[-1][0].top
-            print "enlarging world"
+            #print "enlarging world"
             model.world_enlarger("down")
 
 
         keys = pygame.key.get_pressed()
-        print "can_move_up: ",model.vehicle.can_move_up 
         if keys[pygame.K_UP] and model.vehicle.can_move_up:
 
             for top in range(len(model.temp_world)):
@@ -454,8 +509,10 @@ if __name__ == '__main__':
         elif keys[pygame.K_UP] and not model.vehicle.can_move_up:
             speed_y = 0
 
-        if keys[pygame.K_LEFT] and model.vehicle.can_drill_left:
-            #print "somethings working??"       
+        if keys[pygame.K_LEFT] and not model.vehicle.can_drill_left and not model.vehicle.can_move_left:
+            pass
+        elif keys[pygame.K_LEFT] and model.vehicle.can_drill_left:
+            print "just drilling"
             speed_x = .7
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
@@ -469,7 +526,8 @@ if __name__ == '__main__':
             model.workshop.left += speed_x
             model.workshop.rect.x = model.workshop.left
 
-        if keys[pygame.K_LEFT] and not model.vehicle.can_drill_left:
+        elif keys[pygame.K_LEFT] and model.vehicle.can_move_left:
+            print "just movin'"
             speed_x = 2
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
@@ -505,7 +563,7 @@ if __name__ == '__main__':
             model.workshop.left -= speed_x
             model.workshop.rect.x = model.workshop.left
 
-        if keys[pygame.K_RIGHT] and not model.vehicle.can_drill_right:
+        elif keys[pygame.K_RIGHT] and model.vehicle.can_move_right:
             speed_x = 2
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):

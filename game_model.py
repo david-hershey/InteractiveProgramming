@@ -191,6 +191,8 @@ class Vehicle(pygame.sprite.Sprite):
         self.can_drill_right = False
         self.can_drill_down = False
         self.can_move_up = True
+        self.can_move_left = True
+        self.can_move_right = True
 
         self.left = left
         self.top = top
