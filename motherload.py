@@ -93,14 +93,18 @@ class PygameBrickBreakerView(object):
                 if self.model.vehicle.top <= brick.top + brick.height and self.model.vehicle.top - 30 > brick.top and self.model.vehicle.left - brick.left < 10 and brick.left + brick.width > self.model.vehicle.left + self.model.vehicle.width:
                     print "is this ever executed"
   					#if that brick isn't black, then the vehicle cant move 
+                    
+                    
                     if brick.color != "black" and brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                         self.model.vehicle.can_move_up = False
-                      
 
 
                     elif brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width:
                         self.model.vehicle.can_move_up = True
-                      
+                    elif brick.rect.y != 24:
+                        self.model.vehicle.can_move_up = True 
+                    elif brick.rect.y == 24 and brick.color == "black":
+                        self.model.vehicle.can_move_up = True
                     else:
                     	self.model.vehicle.can_move_up = False
 
@@ -110,14 +114,17 @@ class PygameBrickBreakerView(object):
   					#if that brick isn't black, then the vehicle cant move 
                     if brick.color != "black" and brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                         self.model.can_move_down = False
-                   
 
 
                     elif brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width:
                         self.model.can_move_down = True
+                    elif not (brick.rect.y < 55 and brick.rect.y > 50):
+                        self.model.can_move_down = True
+                    elif brick.rect.y < 55 and brick.rect.y > 50 and brick.color == "black":
+                        self.model.can_move_down = True    
                     else:
                     	self.model.can_move_down = False
-
+                
 
                 if self.model.vehicle.top + self.model.vehicle.height + 3 >= brick.top and self.model.vehicle.top < brick.top and  brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                 	# print "x side of brick", brick.rect.x
@@ -388,8 +395,8 @@ if __name__ == '__main__':
             controller.handle_event(event)
         model.can_drill_right = False
 
-        if model.fuel < 0:
-            running = False
+#        if model.fuel < 0:
+#            running = False
 
         # print " can drill right?", model.vehicle.can_drill_right
         # print " can drill left?", model.vehicle.can_drill_left
@@ -423,10 +430,13 @@ if __name__ == '__main__':
             elif speed_y > 10:
                 speed_y = 10
         elif keys[pygame.K_UP] and not model.vehicle.can_move_up:
-        	speed_y = 0
+            speed_y = 0
 
-        if keys[pygame.K_LEFT] and model.vehicle.can_drill_left:
-        	#print "somethings working??"       
+        print "can_move_down????: ", model.can_move_down
+
+        if keys[pygame.K_LEFT] and model.vehicle.can_drill_left and not model.can_move_down:
+        	#print "somethings working??"
+            print "mining left"       
             speed_x = .7
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
@@ -440,7 +450,7 @@ if __name__ == '__main__':
             model.workshop.left += speed_x
             model.workshop.rect.x = model.workshop.left
 
-        if keys[pygame.K_LEFT] and not model.vehicle.can_drill_left:
+        if keys[pygame.K_LEFT] and not model.vehicle.can_drill_left and not model.can_move_down:
             speed_x = 2
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
@@ -461,9 +471,9 @@ if __name__ == '__main__':
             elif speed_x > 10:
                 speed_x = 10
 
-        if keys[pygame.K_RIGHT] and model.vehicle.can_drill_right:
-                
-            speed_x = .7
+        if keys[pygame.K_RIGHT] and model.vehicle.can_drill_right and not model.can_move_down:
+        	#print "somethings working??"       
+            speed_x = 0.7
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
                     brick = model.temp_world[top][left]
@@ -476,7 +486,7 @@ if __name__ == '__main__':
             model.workshop.left -= speed_x
             model.workshop.rect.x = model.workshop.left
 
-        if keys[pygame.K_RIGHT] and not model.vehicle.can_drill_right:
+        if keys[pygame.K_RIGHT] and not model.vehicle.can_drill_right and not model.can_move_down:
             speed_x = 2
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
