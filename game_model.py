@@ -233,7 +233,7 @@ class BrickBreakerModel(object):
                     self.sprite_list.add(brick)
         self.temp_world = self.world        
 
-        self.fuel = 500
+        self.fuel = 1000
         self.max_fuel = 1000
 
         #counter for minerals

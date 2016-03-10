@@ -152,7 +152,13 @@ class PygameBrickBreakerView(object):
             self.model.orange_block = 0
             self.model.blue_block = 0
             self.model.purple_block = 0
-     
+    
+        #Vehicle visiting workshop
+        if pygame.sprite.collide_rect(self.model.workshop, self.model.vehicle):
+            if self.model.money >= 500:
+                self.model.money -= 500
+                self.model.max_fuel += 500
+ 
         if self.model.fuel <= 0:
             msg = game_over_font.render("GAME OVER",1,(255,255,0))
             screen.blit(msg, (0, 240))
@@ -176,7 +182,7 @@ class PygameBrickBreakerView(object):
         screen.blit(purple_counter,(550,100))
 
         money_counter = myFont.render("Money: " + str(self.model.money), 1, (255,255, 0))
-        screen.blit(money_counter, (550,120))
+        screen.blit(money_counter, (540,120))
 
         pygame.display.update()
 
