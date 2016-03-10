@@ -27,11 +27,15 @@ class Brick(pygame.sprite.Sprite):
        
         if first:
             self.rect.x  = left*width - width*9 #renders 9 extra columns of blocks off screen to the left
-            self.rect.y  = top*height + height*2 - 1 #starts the world with a 2 block high sky
+            self.rect.y  = top*height #top*height + height*2 - 1 #starts the world with a 2 block high sky
             self.width = width 
             self.height = height
-            self.top =   top*height + height*2 -1 
+            self.top =   top*height #+ height*2 -1 
             self.left =  left*width - width*9 
+
+            if top == 0 or top == 1:
+                self.color = "black"
+                return
             random_seed = random.random()
             if random_seed < 0.1:
                 self.color = "black"
@@ -226,13 +230,16 @@ class BrickBreakerModel(object):
 
         self.sprite_list = pygame.sprite.Group() #a list of sprites to be drawn
         #initialize world
+
+
         for top in range(0,self.init_height_dist):
             self.world.append([])
             for left in range(0,self.init_width_dist):
                 brick = Brick(left, top, self.BRICK_WIDTH, self.BRICK_HEIGHT, True)
                 self.world[top].append(brick)
-                if brick.brick_type != "empty" and brick.brick_type != "soil":
-                    self.sprite_list.add(brick)
+                if not (top ==1 or top ==0):
+                    if brick.brick_type != "empty" and brick.brick_type != "soil":
+                        self.sprite_list.add(brick)
         self.temp_world = self.world        
 
         self.fuel = 1000
