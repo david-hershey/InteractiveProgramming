@@ -4,13 +4,20 @@ import pygame
 from pygame.locals import QUIT, KEYDOWN, MOUSEMOTION
 import time
 """
-    Class containing game model and all its components
+    Class containing the game model and all its components
 """
 
 
 class Brick(pygame.sprite.Sprite):
+    """
+    Creates a brick class
 
-    # Constructor. Pass in the color of the block,
+    Key attributes: color, type
+    "Brown" color represents soil and "Black" color represents an empty spot
+    """
+
+
+    # Constructor. Pass in the color of the brick,
     # and its x and y position
     def __init__(self, left, top, width, height, first):
        # Call the parent class (Sprite) constructor
@@ -24,7 +31,8 @@ class Brick(pygame.sprite.Sprite):
        # Fetch the rectangle object that has the dimensions of the image
        # Update the position of this object by setting the values of rect.x and rect.y
         self.rect = self.image.get_rect()
-       
+      
+        #This if statement is executed during initalized of the world at the start of the game. 
         if first:
             self.rect.x  = left*width - width*9 #renders 9 extra columns of blocks off screen to the left
             self.rect.y  = top*height #top*height + height*2 - 1 #starts the world with a 2 block high sky
@@ -61,7 +69,7 @@ class Brick(pygame.sprite.Sprite):
             elif self.brick_type == "watsonite":
                 self.image = pygame.image.load('watsonite.png').convert()
                 self.image.set_colorkey((255,255,255))
-            #self.image.fill((0,220,255))
+        #This else statement is executed during "terrain generation" phase of the game
         else:
             self.rect.x = left
             self.rect.y = top
@@ -94,27 +102,16 @@ class Brick(pygame.sprite.Sprite):
             elif self.brick_type == "watsonite":
                 self.image = pygame.image.load('watsonite.png').convert()
                 self.image.set_colorkey((255,255,255))
-            #self.image.fill((0,220,255))
 
-
-# class FuelStation(object):
-#     """ Represents a fuel station as a pink block at fixed point"""
-#     def __init__(self):
-#         self.left = 400
-#         self.top = 40
-#         self.width = 40
-#         self.height = 40
 
 class FuelStation(pygame.sprite.Sprite):
+    """
+    Fuel station object. It has the fixed position of (400,40)
+    """
 
-    # Constructor. Pass in the color of the block,
-    # and its x and y position
     def __init__(self):
-       # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
 
-       # Create an image of the block, and fill it with a color.
-       # This could also be an image loaded from the disk.
         self.image = pygame.image.load('fuel_station.gif').convert()
 
         self.left = 400
@@ -133,6 +130,7 @@ class FuelStation(pygame.sprite.Sprite):
 class Workshop(pygame.sprite.Sprite):
     """
         Workshop tile where the vehicle can upgrade its fuel tank
+        Fixed position at (560, 40)
     """
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -148,15 +146,13 @@ class Workshop(pygame.sprite.Sprite):
 
 
 class Shop(pygame.sprite.Sprite):
+    """
+    Shop tile where the vehicle can sell its minerals.
+    It has the fixed position at (480,40)
+    """
 
-    # Constructor. Pass in the color of the block,
-    # and its x and y position
     def __init__(self):
-       # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
-
-       # Create an image of the block, and fill it with a color.
-       # This could also be an image loaded from the disk.
         self.image = pygame.image.load('store.jpg').convert()
         self.rect = self.image.get_rect()
 
@@ -167,25 +163,19 @@ class Shop(pygame.sprite.Sprite):
         self.rect.x = 480
         self.rect.y = 40
 
-       # Fetch the rectangle object that has the dimensions of the image
-       # Update the position of this object by setting the values of rect.x and rect.y
         
 
 class Vehicle(pygame.sprite.Sprite):
 
-    """ Represents the paddle in our brick breaker game """
+    """ Represents the vehicle"""
 
-    def __init__(self, left, top, width, height, cheatcode):
-       # Call the parent class (Sprite) constructor
+    def __init__(self, left, top, width, height):
         pygame.sprite.Sprite.__init__(self)
 
-       # Create an image of the block, and fill it with a color.
-       # This could also be an image loaded from the disk.
         self.image = pygame.Surface([width, height])
       
 
-       # Fetch the rectangle object that has the dimensions of the image
-       # Update the position of this object by setting the values of rect.x and rect.y
+        #Attributes that checks for the available action at the vehicle's current position
         self.rect = self.image.get_rect()
         self.can_drill_left = False
         self.can_drill_right = False
@@ -199,7 +189,6 @@ class Vehicle(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         self.thruster = False
-        self.cheatcode = cheatcode
         self.speed = 0
 
         self.gravity = .1
@@ -231,9 +220,9 @@ class BrickModel(object):
         self.init_width_dist = 34 #number of columns of blocks
 
         self.sprite_list = pygame.sprite.Group() #a list of sprites to be drawn
+
+
         #initialize world
-
-
         for top in range(0,self.init_height_dist):
             self.world.append([])
             for left in range(0,self.init_width_dist):
@@ -244,8 +233,8 @@ class BrickModel(object):
                         self.sprite_list.add(brick)
         self.temp_world = self.world        
 
-        self.fuel = 1000
-        self.max_fuel = 1000
+        self.fuel = 3000
+        self.max_fuel = 3000
 
         #counter for minerals
         self.red_block = 0
@@ -258,8 +247,7 @@ class BrickModel(object):
 
         self.score = 0        
        
-        cheatcode = "dpapp"
-        self.vehicle = Vehicle(40*8,25, 25, 25, cheatcode)
+        self.vehicle = Vehicle(40*8,25, 25, 25)
 
         self.fuel_station = FuelStation()
         self.sprite_list.add(self.fuel_station)
@@ -269,6 +257,9 @@ class BrickModel(object):
         self.sprite_list.add(self.workshop)        
 
     def world_enlarger(self, what_side):
+        """
+            Function that enlarges the array that represents the map in our game when the vehicle reaches the bottom of the array
+        """
         
         if what_side == "left":
             pass
@@ -287,6 +278,3 @@ class BrickModel(object):
                     self.world[-1].append(brick)
                     if brick.brick_type != "soil" and brick.brick_type != "empty":
                         self.sprite_list.add(brick)
-
-    def get_elapsed_time(self):
-        return pygame.time.get_ticks()
