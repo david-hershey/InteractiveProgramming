@@ -245,6 +245,8 @@ class BrickBreakerModel(object):
         self.purple_block = 0
         
         self.money = 0 
+
+        self.score = 0        
        
         cheatcode = "dpapp"
         self.vehicle = Vehicle(40*8,25, 25, 25, cheatcode)
