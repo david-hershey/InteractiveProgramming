@@ -388,6 +388,9 @@ if __name__ == '__main__':
             controller.handle_event(event)
         model.can_drill_right = False
 
+        if model.fuel < 0:
+            running = False
+
         # print " can drill right?", model.vehicle.can_drill_right
         # print " can drill left?", model.vehicle.can_drill_left
         print "can drill right? ", model.vehicle.can_drill_right
