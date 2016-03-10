@@ -171,6 +171,7 @@ class Vehicle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.can_drill_left = False
         self.can_drill_right = False
+        self.can_drill_down = False
 
         self.left = left
         self.top = top

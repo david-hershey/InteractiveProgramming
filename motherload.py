@@ -44,6 +44,17 @@ class PygameBrickBreakerView(object):
                     else:
                         self.model.can_move_down = True
 
+                if self.model.vehicle.top + self.model.vehicle.height + 6 >= brick.top and self.model.vehicle.top < brick.top and  brick.rect.x-self.model.vehicle.rect.x  < 9:    
+                	print "x side of brick", brick.rect.x
+                	print "x side of vehicle", self.model.vehicle.rect.x
+                	print self.model.vehicle.can_drill_down
+                	if brick.color != "black" and self.model.vehicle.rect.x - brick.rect.x < 9:
+                		self.model.vehicle.can_drill_down = True
+
+                	else:
+                		self.model.vehicle.can_drill_down = False
+
+
         
                 if (not model.can_move_down) and (brick.left + brick.width >= self.model.vehicle.left) \
                  and (brick.left < self.model.vehicle.left) and math.fabs(brick.top-self.model.vehicle.top) < 9:  #checks if the vehicles can/should drill left
@@ -54,6 +65,7 @@ class PygameBrickBreakerView(object):
                 	else:
              
                			self.model.vehicle.can_drill_left = False
+               		
           
 
                 if (not model.can_move_down) and (self.model.vehicle.left + brick.width >= brick.left) \
@@ -278,7 +290,7 @@ if __name__ == '__main__':
 
         # print " can drill right?", model.vehicle.can_drill_right
         # print " can drill left?", model.vehicle.can_drill_left
-
+        print "can drill down? ", model.vehicle.can_drill_down
 
         if model.temp_world[-1][0].top >= model.FAR_BOTTOM and model.temp_world[-1][0].top < model.FAR_BOTTOM + 40: 
             mistake = model.FAR_BOTTOM - model.temp_world[-1][0].top
