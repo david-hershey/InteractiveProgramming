@@ -32,23 +32,27 @@ class PygameBrickBreakerView(object):
                 brick = self.model.temp_world[top][left]
 
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
-             
+             	
 
                 #checks if the bottom of the vehicle + 6 is more than or equal to the top of a brick and the top of the vehicle is less than the top of that brick and if its the brick in the same column
-                if self.model.vehicle.top + self.model.vehicle.height + 6 >= brick.top and self.model.vehicle.top < brick.top and  brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
+                if self.model.vehicle.top + self.model.vehicle.height + 6 >= brick.top and self.model.vehicle.top < brick.top and brick.rect.x - self.model.vehicle.rect.x < 9:
   					#if that brick isn't black, then the vehicle cant move 
-                    if brick.color != "black":
+                    if brick.color != "black" and brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                         self.model.can_move_down = False
+                        print "does anything work"
 
 
-                    else:
+                    elif brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width:
                         self.model.can_move_down = True
+                    else:
+                    	self.model.can_move_down = False
+
 
                 if self.model.vehicle.top + self.model.vehicle.height + 6 >= brick.top and self.model.vehicle.top < brick.top and  brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                 	print "x side of brick", brick.rect.x
                 	print "x side of vehicle", self.model.vehicle.rect.x
-                	#print self.model.vehicle.can_drill_down
-                	if brick.color != "black":
+                	print self.model.vehicle.can_drill_down
+                	if brick.color != "black" and self.model.vehicle.rect.x - brick.rect.x < 9:
                 		self.model.vehicle.can_drill_down = True
 
                 	else:
@@ -164,13 +168,7 @@ class PygameBrickBreakerView(object):
             self.model.orange_block = 0
             self.model.blue_block = 0
             self.model.purple_block = 0
-    
-        #Vehicle visiting workshop
-        if pygame.sprite.collide_rect(self.model.workshop, self.model.vehicle):
-            if self.model.money >= 500:
-                self.model.money -= 500
-                self.model.max_fuel += 500
- 
+     
         if self.model.fuel <= 0:
             msg = game_over_font.render("GAME OVER",1,(255,255,0))
             screen.blit(msg, (0, 240))
@@ -194,7 +192,7 @@ class PygameBrickBreakerView(object):
         screen.blit(purple_counter,(550,100))
 
         money_counter = myFont.render("Money: " + str(self.model.money), 1, (255,255, 0))
-        screen.blit(money_counter, (540,120))
+        screen.blit(money_counter, (550,120))
 
         pygame.display.update()
 
