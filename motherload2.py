@@ -32,63 +32,86 @@ class PygameBrickBreakerView(object):
 
 
                 brick = self.model.temp_world[top][left]
-                if not (left == 0 or top == 0 or top == len(self.model.temp_world) -1 or left == len(self.model.temp_world[0])-1):
+                if not (left == 0 or top == 0 or top == len(self.model.temp_world) -1 or left == len(self.model.temp_world[0])-1) and pygame.sprite.collide_rect(brick,self.model.vehicle):
 
-	                brick_left = self.model.temp_world[top][left-1]
-	                brick_top_left =  self.model.temp_world[top-1][left-1]
-	                brick_top_right = self.model.temp_world[top-1][left+1]
-	                brick_bottom_left = self.model.temp_world[top+1][left-1]
-	                brick_bottom_right = self.model.temp_world[top+1][left+1]
-	                brick_right = self.model.temp_world[top][left+1]
-	                brick_bottom = self.model.temp_world[top+1][left]
-	                brick_top = self.model.temp_world[top-1][left]
+                    brick_left = self.model.temp_world[top][left-1]
+                    brick_top_left =  self.model.temp_world[top-1][left-1]
+                    brick_top_right = self.model.temp_world[top-1][left+1]
+                    brick_bottom_left = self.model.temp_world[top+1][left-1]
+                    brick_bottom_right = self.model.temp_world[top+1][left+1]
+                    brick_right = self.model.temp_world[top][left+1]
+                    brick_bottom = self.model.temp_world[top+1][left]
+                    brick_top = self.model.temp_world[top-1][left]
+                      
+                    t = True
+                    tl = True
+                    tr = True
 
-	                if pygame.sprite.collide_rect(brick,self.model.vehicle):
+                    if pygame.sprite.collide_rect(brick,self.model.vehicle):
 
-	                	if pygame.sprite.collide_rect(brick,brick_left):  #checks collision with left
-	                		l = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_left):
-	                		l = False
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_left):  #checks collision with left
+                            l = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_left):
+                            l = False
 
-	                	elif pygame.sprite.collide_rect(brick,brick_right): #checks collision with right
-	                		r = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_right):
-	                		r = False
-	                	
-	                	elif pygame.sprite.collide_rect(brick,brick_top):  #checks collision with top
-	                		t = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_top):
-	                		t = False
-	                	
-	                	elif pygame.sprite.collide_rect(brick,brick_bottom): #checks collision with bottom
-	                		b = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_bottom):
-	                		b = False
-	                	
-	                	elif pygame.sprite.collide_rect(brick,brick_bottom_left): #checks collision with bottom left
-	                		bl = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_bottom_left):
-	                		bl = False
-	                	
-	                	elif pygame.sprite.collide_rect(brick,brick_bottom_right): #checks collision with bottom right
-	                		br = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_bottom_right):
-	                		br = False
-	                	
-	                	elif pygame.sprite.collide_rect(brick,brick_top_left): #checks collision with top left
-	                		tl = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_top_left):
-	                		tl = False
-	                	
-	                	elif pygame.sprite.collide_rect(brick,brick_top_right):  #checks collision with top right
-	                		tr = True
-	                	elif not pygame.sprite.collide_rect(brick,brick_top_right):
-	                		tr = False
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_right): #checks collision with right
+                            r = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_right):
+                            r = False
+                        
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_top):  #checks collision with top
+                            t = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_top):
+                            t = False
+                        
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_bottom): #checks collision with bottom
+                            b = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_bottom):
+                            b = False
+                        
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_bottom_left): #checks collision with bottom left
+                            bl = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_bottom_left):
+                            bl = False
+                        
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_bottom_right): #checks collision with bottom right
+                            br = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_bottom_right):
+                            br = False
+                        
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_top_left): #checks collision with top left
+                            tl = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_top_left):
+                            tl = False
+                        
+                        if pygame.sprite.collide_rect(self.model.vehicle,brick_top_right):  #checks collision with top right
+                            tr = True
+                        elif not pygame.sprite.collide_rect(self.model.vehicle,brick_top_right):
+                            tr = False
 
-	                	if brick.color == "black" and brick_bottom.color == "black":
-	                		print "gravity is TRUE"
+                        if brick.color == "black" and brick_bottom.color == "black":
+                            print "gravity is TRUE"
 
-
+                        #Collision detection using sprite collision
+                        print "tl",tl,"t: ",t, "tr", tr
+                        if t and not tl and not tr:
+                            if brick_top.color == "black":
+                                self.model.vehicle.can_move_up = True
+                            else:
+                                self.model.vehicle.can_move_up = False
+                        elif (tl and t):
+                            if brick_top.color == "black" and brick_top_left.color == "black":
+                                self.model.vehicle.can_move_up = True
+                            else:
+                                self.model.vehicle.can_move_up = False
+                        elif (t and tr):
+                            if brick_top.color == "black" and brick_top_right.color == "black":
+                                self.model.vehicle.can_move_up = True
+                            else:
+                                self.model.vehicle.can_move_up = False
+                        else:
+                            self.model.vehicle.can_move_up = True
+                        
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
              
            
@@ -100,8 +123,8 @@ class PygameBrickBreakerView(object):
 
 
                 #checks if the vehicle can move up
-                if self.model.vehicle.top <= brick.top + brick.height and self.model.vehicle.top > brick.top and brick.rect.x - self.model.vehicle.rect.x < 9:
-  					#if that brick isn't black, then the vehicle cant move 
+                """if self.model.vehicle.top <= brick.top + brick.height and self.model.vehicle.top > brick.top and brick.rect.x - self.model.vehicle.rect.x < 9:
+                    #if that brick isn't black, then the vehicle cant move 
                     if brick.color != "black" and brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                         self.model.vehicle.can_move_up = False
                       
@@ -111,11 +134,11 @@ class PygameBrickBreakerView(object):
                         self.model.vehicle.can_move_up = True
                       
                     else:
-                    	self.model.vehicle.can_move_up = False
+                        self.model.vehicle.can_move_up = False"""
 
                 #checks if the bottom of the vehicle + 6 px is more than or equal to the top of a brick and the top of the vehicle is less than the top of that brick and if its the brick in the same column
                 if self.model.vehicle.top + self.model.vehicle.height + 3 >= brick.top and self.model.vehicle.top < brick.top and brick.rect.x - self.model.vehicle.rect.x < 9:
-  					#if that brick isn't black, then the vehicle cant move 
+                    #if that brick isn't black, then the vehicle cant move 
                     if brick.color != "black" and brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                         self.model.can_move_down = False
                    
@@ -124,18 +147,18 @@ class PygameBrickBreakerView(object):
                     elif brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width:
                         self.model.can_move_down = True
                     else:
-                    	self.model.can_move_down = False
+                        self.model.can_move_down = False
 
 
                 if self.model.vehicle.top + self.model.vehicle.height + 3 >= brick.top and self.model.vehicle.top < brick.top and  brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
-                	# print "x side of brick", brick.rect.x
-                	# print "x side of vehicle", self.model.vehicle.rect.x
-                	# print self.model.vehicle.can_drill_down
-                	# if brick.color != "black" and self.model.vehicle.rect.x - brick.rect.x < 9:
-                	# 	self.model.vehicle.can_drill_down = True
+                    # print "x side of brick", brick.rect.x
+                    # print "x side of vehicle", self.model.vehicle.rect.x
+                    # print self.model.vehicle.can_drill_down
+                    # if brick.color != "black" and self.model.vehicle.rect.x - brick.rect.x < 9:
+                    #   self.model.vehicle.can_drill_down = True
 
-                	# else:
-                	# 	self.model.vehicle.can_drill_down = False
+                    # else:
+                    #   self.model.vehicle.can_drill_down = False
 
                     if brick.color != "black" and brick.rect.x < self.model.vehicle.rect.x and brick.rect.x + brick.width > self.model.vehicle.rect.x + self.model.vehicle.width: 
                         self.model.vehicle.can_drill_down = True
@@ -146,32 +169,32 @@ class PygameBrickBreakerView(object):
                         self.model.vehicle.can_drill_down = False
                       
                     else:
-                    	self.model.vehicle.can_drill_down = True
+                        self.model.vehicle.can_drill_down = True
 
 
 
         
                 if (not model.can_move_down) and (brick.left + brick.width >= self.model.vehicle.left) \
                  and (brick.left < self.model.vehicle.left) and math.fabs(brick.top-self.model.vehicle.top) < 9:  #checks if the vehicles can/should drill left
-       			    
-                	if brick.color != "black":
+                    
+                    if brick.color != "black":
          
-                		self.model.vehicle.can_drill_left = True
-                	else:
+                        self.model.vehicle.can_drill_left = True
+                    else:
              
-               			self.model.vehicle.can_drill_left = False
-               		
+                        self.model.vehicle.can_drill_left = False
+                    
           
 
                 if (not model.can_move_down) and (self.model.vehicle.left + brick.width >= brick.left) \
                  and (self.model.vehicle.left < brick.left) and math.fabs(brick.top-self.model.vehicle.top) < 9:  #checks if the vehicles can/should drill right
        
-                	if brick.color != "black": 
+                    if brick.color != "black": 
          
-                		self.model.vehicle.can_drill_right = True
-                	else:
+                        self.model.vehicle.can_drill_right = True
+                    else:
              
-               			self.model.vehicle.can_drill_right = False
+                        self.model.vehicle.can_drill_right = False
  
           
 
@@ -196,42 +219,42 @@ class PygameBrickBreakerView(object):
                         # print "veh top", self.model.vehicle.top
                         # print "can drill right,", model.can_drill_right
               #  print self.model.can_drill_right
-              	if not (top == 0 or top ==1):
-	                if math.fabs(brick.left - self.model.vehicle.left) < 20 and math.fabs(self.model.vehicle.top - brick.top)<20: #checks if the vehicle overlaps a block, if so change block to black
-	                    if brick.brick_type != "empty" and brick.brick_type != "soil":
-	                        print "I am eating ...", brick.brick_type
-	                    if brick.brick_type == "ruby":
-	                        self.model.red_block += 1
-	                        self.model.score += 100
-	                        brick.image.fill((0,0,0))
-	                        brick.image.set_colorkey((0,0,0))
-	                    elif brick.brick_type == "emerald":
-	                        self.model.green_block += 1
-	                        self.model.score += 100
-	                        brick.image.fill((0,0,0))
-	                        brick.image.set_colorkey((0,0,0))
-	                    elif brick.brick_type == "amazonite":
-	                        self.model.orange_block += 1
-	                        self.model.score += 100
-	                        brick.image.fill((0,0,0))
-	                        brick.image.set_colorkey((0,0,0))
-	                    elif brick.brick_type == "sapphire":
-	                        self.model.blue_block += 1
-	                        self.model.score += 100
-	                        brick.image.fill((0,0,0))
-	                        brick.image.set_colorkey((0,0,0))
-	                    elif brick.brick_type == "watsonite":
-	                        self.model.purple_block += 1
-	                        self.model.score += 100
-	                        brick.image.fill((0,0,0))
-	                        brick.image.set_colorkey((0,0,0))
+                if not (top == 0 or top ==1):
+                    if math.fabs(brick.left - self.model.vehicle.left) < 20 and math.fabs(self.model.vehicle.top - brick.top)<20: #checks if the vehicle overlaps a block, if so change block to black
+                        if brick.brick_type != "empty" and brick.brick_type != "soil":
+                            print "I am eating ...", brick.brick_type
+                        if brick.brick_type == "ruby":
+                            self.model.red_block += 1
+                            self.model.score += 100
+                            brick.image.fill((0,0,0))
+                            brick.image.set_colorkey((0,0,0))
+                        elif brick.brick_type == "emerald":
+                            self.model.green_block += 1
+                            self.model.score += 100
+                            brick.image.fill((0,0,0))
+                            brick.image.set_colorkey((0,0,0))
+                        elif brick.brick_type == "amazonite":
+                            self.model.orange_block += 1
+                            self.model.score += 100
+                            brick.image.fill((0,0,0))
+                            brick.image.set_colorkey((0,0,0))
+                        elif brick.brick_type == "sapphire":
+                            self.model.blue_block += 1
+                            self.model.score += 100
+                            brick.image.fill((0,0,0))
+                            brick.image.set_colorkey((0,0,0))
+                        elif brick.brick_type == "watsonite":
+                            self.model.purple_block += 1
+                            self.model.score += 100
+                            brick.image.fill((0,0,0))
+                            brick.image.set_colorkey((0,0,0))
 
-	                    brick.color = "black"
-	                    brick.brick_type = "empty"
-	                    pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
+                        brick.color = "black"
+                        brick.brick_type = "empty"
+                        pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
 
-	                else:
-	                    pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
+                    else:
+                        pygame.draw.rect(self.screen, pygame.Color(brick.color), r)
                 
                     
         
@@ -398,7 +421,7 @@ if __name__ == '__main__':
 
         # print " can drill right?", model.vehicle.can_drill_right
         # print " can drill left?", model.vehicle.can_drill_left
-        print "can drill right? ", model.vehicle.can_drill_right
+#        print "can drill right? ", model.vehicle.can_drill_right
 
         if model.temp_world[-1][0].top >= model.FAR_BOTTOM and model.temp_world[-1][0].top < model.FAR_BOTTOM + 40: 
             mistake = model.FAR_BOTTOM - model.temp_world[-1][0].top
@@ -406,7 +429,8 @@ if __name__ == '__main__':
             model.world_enlarger("down")
 
 
-        keys = pygame.key.get_pressed()  
+        keys = pygame.key.get_pressed()
+        print "can_move_up: ",model.vehicle.can_move_up 
         if keys[pygame.K_UP] and model.vehicle.can_move_up:
 
             for top in range(len(model.temp_world)):
@@ -428,10 +452,10 @@ if __name__ == '__main__':
             elif speed_y > 10:
                 speed_y = 10
         elif keys[pygame.K_UP] and not model.vehicle.can_move_up:
-        	speed_y = 0
+            speed_y = 0
 
         if keys[pygame.K_LEFT] and model.vehicle.can_drill_left:
-        	#print "somethings working??"       
+            #print "somethings working??"       
             speed_x = .7
             for top in range(len(model.temp_world)):
                 for left in range(len(model.temp_world[top])):
