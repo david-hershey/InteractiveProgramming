@@ -20,7 +20,7 @@ Download the repository to your local environment through cloning this repositor
 Run motherload.py to start the program.
 
 ```
-python motherload.py
+$ python motherload.py
 ```
 
 You are all set. Enjoy the game.
