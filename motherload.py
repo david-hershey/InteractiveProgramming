@@ -90,7 +90,7 @@ class PygameBrickBreakerView(object):
                         # print "can drill right,", model.can_drill_right
               #  print self.model.can_drill_right
 
-                if math.fabs(brick.left - self.model.vehicle.left) < 9 and math.fabs(self.model.vehicle.top - brick.top)<9: #checks if the vehicle overlaps a block, if so change block to black
+                if math.fabs(brick.left - self.model.vehicle.left) < 20 and math.fabs(self.model.vehicle.top - brick.top)<20: #checks if the vehicle overlaps a block, if so change block to black
                     if brick.brick_type != "empty" and brick.brick_type != "soil":
                         print "I am eating ...", brick.brick_type
                     if brick.brick_type == "ruby":
