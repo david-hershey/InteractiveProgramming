@@ -247,7 +247,7 @@ class BrickBreakerModel(object):
         self.money = 0 
        
         cheatcode = "dpapp"
-        self.vehicle = Vehicle(40*8,30, 30, 30, cheatcode)
+        self.vehicle = Vehicle(40*8,25, 25, 25, cheatcode)
 
         self.fuel_station = FuelStation()
         self.sprite_list.add(self.fuel_station)

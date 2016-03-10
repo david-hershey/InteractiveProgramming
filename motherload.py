@@ -33,6 +33,8 @@ class PygameBrickBreakerView(object):
 
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
              	
+                # if not pygame.sprite.collide_rect(self.model.vehicle, brick):
+                # 	self.model.can_move_down = True
 
                 #checks if the bottom of the vehicle + 6 is more than or equal to the top of a brick and the top of the vehicle is less than the top of that brick and if its the brick in the same column
                 if self.model.vehicle.top + self.model.vehicle.height + 6 >= brick.top and self.model.vehicle.top < brick.top and brick.rect.x - self.model.vehicle.rect.x < 9:
@@ -445,5 +447,4 @@ if __name__ == '__main__':
         
         model.fuel -= 1 #decrease fuel value every frame
         view.draw()
-        #print "can move right??", model.can_drill_right
-     #   clock.tick(500000000)
+              
