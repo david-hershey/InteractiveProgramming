@@ -35,7 +35,7 @@ class PygameBrickBreakerView(object):
              
 
                 #checks if the bottom of the vehicle + 6 is more than or equal to the top of a brick and the top of the vehicle is less than the top of that brick and if its the brick in the same column
-                if self.model.vehicle.top + self.model.vehicle.height + 6 >= brick.top and self.model.vehicle.top < brick.top and math.fabs(brick.rect.x - self.model.vehicle.rect.x) < 9: 
+                if self.model.vehicle.top + self.model.vehicle.height + 6 >= brick.top and self.model.vehicle.top < brick.top and  brick.rect.x-self.model.vehicle.rect.x  < 9: 
   					#if that brick isn't black, then the vehicle cant move 
                     if brick.color != "black":
                         self.model.can_move_down = False

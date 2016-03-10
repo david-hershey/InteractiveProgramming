@@ -193,7 +193,7 @@ class BrickBreakerModel(object):
     def __init__(self):
        #self.bricks = [][]
         self.enlarger_helper = None
-        self.can_move_down = False  #checks if the blocks free to fall downward
+        self.can_move_down = True  #checks if the blocks free to fall downward
         self.world = [] 
         self.MARGIN = 0
         self.BRICK_WIDTH = 40
