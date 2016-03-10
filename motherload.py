@@ -8,7 +8,7 @@ import pygame, os, sys
 import math 
 
 
-class PygameBrickBreakerView(object):
+class GameViewer(object):
     """ Visualizes a brick breaker game in a pygame window """
     def __init__(self, model, screen):
         """ Initialize the view with the specified model
@@ -276,16 +276,6 @@ class PygameBrickBreakerView(object):
 
 
 
-class PyGameKeyboardController(object):
-    def __init__(self, model):
-        self.model = model
-
-    def handle_event(self, event):
-        """ Look for left and right keypresses to
-            modify the x position of the paddle """
-        if event.type != KEYDOWN:
-            return
-
 
 
 
@@ -305,16 +295,15 @@ if __name__ == '__main__':
     size = (640, 480)
     screen = pygame.display.set_mode(size)
     model = game_model.BrickModel()
-    view = PygameBrickBreakerView(model, screen)
-    controller = PyGameKeyboardController(model)
+    view = GameViewer(model, screen)
+    
 
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
-            controller.handle_event(event)
-        model.can_drill_right = False
+
 
         if model.fuel < 0:
             running = False
