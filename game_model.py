@@ -126,7 +126,21 @@ class FuelStation(pygame.sprite.Sprite):
         self.rect.y = 40
 
 
+class Workshop(pygame.sprite.Sprite):
+    """
+        Workshop tile where the vehicle can upgrade its fuel tank
+    """
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('workshop.png')
+        self.rect = self.image.get_rect()
 
+        self.left = 560
+        self.top = 40
+        self.width = 40
+        self.height = 40
+        self.rect.x = 560
+        self.rect.y = 40
 
 
 class Shop(pygame.sprite.Sprite):
@@ -239,6 +253,8 @@ class BrickBreakerModel(object):
         self.sprite_list.add(self.fuel_station)
         self.shop = Shop()
         self.sprite_list.add(self.shop)
+        self.workshop = Workshop()
+        self.sprite_list.add(self.workshop)        
 
     def world_enlarger(self, what_side):
         

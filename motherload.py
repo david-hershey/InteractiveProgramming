@@ -310,6 +310,8 @@ if __name__ == '__main__':
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed_y
             model.shop.rect.y = model.shop.top
+            model.workshop.top -= speed_y
+            model.workshop.rect.y = model.workshop.top
 
             speed_y = speed_y + thruster;   
 
@@ -330,6 +332,8 @@ if __name__ == '__main__':
             model.fuel_station.rect.x = model.fuel_station.left
             model.shop.left += speed_x
             model.shop.rect.x = model.shop.left
+            model.workshop.left += speed_x
+            model.workshop.rect.x = model.workshop.left
 
         if keys[pygame.K_LEFT] and not model.vehicle.can_drill_left:
             speed_x = 2
@@ -342,6 +346,8 @@ if __name__ == '__main__':
             model.fuel_station.rect.x = model.fuel_station.left
             model.shop.left += speed_x
             model.shop.rect.x = model.shop.left
+            model.workshop.left += speed_x
+            model.workshop.rect.x = model.workshop.left
 
             speed_x = speed_x + thruster_x;   
 
@@ -362,6 +368,8 @@ if __name__ == '__main__':
             model.fuel_station.rect.x = model.fuel_station.left
             model.shop.left -= speed_x
             model.shop.rect.x = model.shop.left
+            model.workshop.left -= speed_x
+            model.workshop.rect.x = model.workshop.left
 
         if keys[pygame.K_RIGHT] and not model.vehicle.can_drill_right:
             speed_x = 2
@@ -375,6 +383,9 @@ if __name__ == '__main__':
             model.fuel_station.rect.x = model.fuel_station.left
             model.shop.left -= speed_x
             model.shop.rect.x = model.shop.left
+            model.workshop.left -= speed_x
+            model.workshop.rect.x = model.workshop.left
+
             speed_x = speed_x + thruster_x;   
 
             if speed_x > 1:
@@ -395,6 +406,8 @@ if __name__ == '__main__':
             model.fuel_station.rect.y = model.fuel_station.top
             model.shop.top -= speed_y
             model.shop.rect.y = model.shop.top
+            model.workshop.top -= speed_y
+            model.workshop.rect.y = model.workshop.top
 
         elif model.can_move_down and not keys[pygame.K_UP]:    
             for top in range(len(model.temp_world)):
@@ -410,6 +423,9 @@ if __name__ == '__main__':
 
             model.shop.top -= speed_y
             model.shop.rect.y = model.shop.top
+
+            model.workshop.top -= speed_y
+            model.workshop.rect.y = model.workshop.top
 
             speed_y = speed_y + gravity
             if speed_y > 12:
