@@ -1,4 +1,4 @@
-# InteractiveProgramming
+# Motherload: Cabbage Rendition
 @authors: Sung Park, Willem Thorbecke
 
 *Motherload: Cabbage Rendition* is a recreation of Motherload using pygame. This project was created as a part of Olin College Software Design course for Spring 2016.
