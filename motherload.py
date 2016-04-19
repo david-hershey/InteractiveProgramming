@@ -15,6 +15,7 @@ class GameViewer(object):
             and screen. """
         self.model = model
         self.screen = screen
+        self.running = True
 
 
     def draw(self):
@@ -35,7 +36,7 @@ class GameViewer(object):
                 #if there are bricks surrounding the current block, then continue 
                 if not (left == 0 or top == 0 or top == len(self.model.temp_world) -1 or left == len(self.model.temp_world[0])-1) and pygame.sprite.collide_rect(brick,self.model.vehicle):
 
-                	#define the 8 surrounding bricks
+                    #define the 8 surrounding bricks
                     brick_left = self.model.temp_world[top][left-1]
                     brick_top_left =  self.model.temp_world[top-1][left-1]
                     brick_top_right = self.model.temp_world[top-1][left+1]
@@ -141,7 +142,7 @@ class GameViewer(object):
                         elif brick.color == "black" and not b and not bl and not br:
                             self.model.can_move_down = True
                 
-                		#checks if there are bricks touching to the left and bottom, if so turn on drilling 
+                        #checks if there are bricks touching to the left and bottom, if so turn on drilling 
                         if l and bl:
                             if brick_left.color == "black":
                                 self.model.vehicle.can_move_left = True
@@ -177,7 +178,7 @@ class GameViewer(object):
 
                 r = pygame.Rect(brick.left, brick.top, brick.width, brick.height)
              
-           		#checks if player has mined a mineral, if so increments the mineral count 
+                #checks if player has mined a mineral, if so increments the mineral count 
                 if not (top == 0 or top ==1):
                     if math.fabs(brick.left - self.model.vehicle.left) < 20 and math.fabs(self.model.vehicle.top - brick.top)<20: #checks if the vehicle overlaps a block, if so change block to black (empty)
                         if brick.brick_type == "ruby":
@@ -284,195 +285,211 @@ class GameViewer(object):
 
 
 
+class KeyboardController(object):
+    def __init__(self, model,view):
+        self.model = model
+        self.view = view
+
+    def handle_event(self):
+        """
+        handles any keyboard input
+        """
+
+        pygame.init()
+
+        while self.view.running:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.view.running = False
+
+            if model.fuel < 0:
+                self.view.running = False
+
+            
+              #checks if the world should enlarge
+            if self.model.temp_world[-1][0].top >= self.model.FAR_BOTTOM and self.model.temp_world[-1][0].top < self.model.FAR_BOTTOM + 40: 
+                mistake = self.model.FAR_BOTTOM - self.model.temp_world[-1][0].top
+                self.model.world_enlarger("down")
+
+
+            #checks for key press
+            keys = pygame.key.get_pressed()
+
+
+            if keys[pygame.K_UP] and self.model.vehicle.can_move_up:
+
+                for top in range(len(self.model.temp_world)):
+                    for left in range(len(self.model.temp_world[top])):
+                            brick = self.model.temp_world[top][left]
+                            brick.top -= self.model.vehicle.speed_y
+                            brick.rect.y = brick.top
+
+                self.model.fuel_station.top -= self.model.vehicle.speed_y
+                self.model.fuel_station.rect.y = self.model.fuel_station.top
+                self.model.shop.top -= self.model.vehicle.speed_y
+                self.model.shop.rect.y = self.model.shop.top
+                self.model.workshop.top -= self.model.vehicle.speed_y
+                self.model.workshop.rect.y = self.model.workshop.top
+
+                self.model.vehicle.speed_y = self.model.vehicle.speed_y + self.model.vehicle.thruster;   
+
+                if self.model.vehicle.speed_y  > 1:
+                    self.model.vehicle.speed_y  = 0
+                elif self.model.vehicle.speed_y  > 10:
+                    self.model.vehicle.speed_y  = 10
+            elif keys[pygame.K_UP] and not model.vehicle.can_move_up:
+                self.model.vehicle.speed_y  = 0
 
 
 
+            if keys[pygame.K_LEFT] and not self.model.vehicle.can_drill_left and not self.model.vehicle.can_move_left:
+                pass
+            elif keys[pygame.K_LEFT] and self.model.vehicle.can_drill_left:
+                speed_x = .7
+                #loops through the game model and moves all the blocks appropriately based off of key press
+                for top in range(len(self.model.temp_world)):
+                    for left in range(len(self.model.temp_world[top])):
+                        brick = self.model.temp_world[top][left]
+                        brick.left += self.model.vehicle.speed_x
+                        brick.rect.x = brick.left
+                #moves all game objects appropriately bassed off of key presses
+                self.model.fuel_station.left += self.model.vehicle.speed_x
+                self.model.fuel_station.rect.x = self.model.fuel_station.left
+                self.model.shop.left += self.model.vehicle.speed_x
+                self.model.shop.rect.x = self.model.shop.left
+                self.model.workshop.left += self.model.vehicle.speed_x
+                self.model.workshop.rect.x = self.model.workshop.left
+
+            elif keys[pygame.K_LEFT] and self.model.vehicle.can_move_left:
+                speed_x = 2
+                for top in range(len(self.model.temp_world)):
+                    for left in range(len(self.model.temp_world[top])):
+                        brick = self.model.temp_world[top][left]
+                        brick.left += self.model.vehicle.speed_x
+                        brick.rect.x = brick.left
+                self.model.fuel_station.left += self.model.vehicle.speed_x
+                self.model.fuel_station.rect.x = self.model.fuel_station.left
+                self.model.shop.left += self.model.vehicle.speed_x
+                self.model.shop.rect.x = self.model.shop.left
+                self.model.workshop.left += self.model.vehicle.speed_x
+                self.model.workshop.rect.x = self.model.workshop.left
+
+                self.model.vehicle.speed_x = self.model.vehicle.speed_x + self.model.vehicle.thruster_x;   
+
+                if self.model.vehicle.speed_x > 1:
+                    self.model.vehicle.speed_x = 0
+                elif self.model.vehicle.speed_x > 10:
+                    self.model.vehicle.speed_x = 10
+
+            if keys[pygame.K_RIGHT] and self.model.vehicle.can_drill_right:
+                    
+                speed_x = .7
+                for top in range(len(self.model.temp_world)):
+                    for left in range(len(self.model.temp_world[top])):
+                        brick = self.model.temp_world[top][left]
+                        brick.left -= self.model.vehicle.speed_x
+                        brick.rect.x = brick.left
+                self.model.fuel_station.left -= self.model.vehicle.speed_x
+                self.model.fuel_station.rect.x = self.model.fuel_station.left
+                self.model.shop.left -= self.model.vehicle.speed_x
+                self.model.shop.rect.x = self.model.shop.left
+                self.model.workshop.left -= self.model.vehicle.speed_x
+                self.model.workshop.rect.x = self.model.workshop.left
+
+            elif keys[pygame.K_RIGHT] and self.model.vehicle.can_move_right:
+                speed_x = 2
+                for top in range(len(self.model.temp_world)):
+                    for left in range(len(self.model.temp_world[top])):
+                        brick = self.model.temp_world[top][left]
+                        brick.left -= self.model.vehicle.speed_x
+                        brick.rect.x = brick.left
+
+                self.model.fuel_station.left -= self.model.vehicle.speed_x
+                self.model.fuel_station.rect.x = self.model.fuel_station.left
+                self.model.shop.left -= self.model.vehicle.speed_x
+                self.model.shop.rect.x = self.model.shop.left
+                self.model.workshop.left -= self.model.vehicle.speed_x
+                self.model.workshop.rect.x = self.model.workshop.left
+
+                self.model.vehicle.speed_x = self.model.vehicle.speed_x + self.model.vehicle.thruster_x;   
+
+                if self.model.vehicle.speed_x > 1:
+                    self.model.vehicle.speed_x = 0
+                elif self.model.vehicle.speed_x > 10:
+                    self.model.vehicle.speed_x = 10
 
 
-clock = pygame.time.Clock()
+            if keys[pygame.K_DOWN] and not self.model.can_move_down and self.model.vehicle.can_drill_down:
+            
+                self.model.vehicle.speed_y = .7
+                for top in range(len(self.model.temp_world)):
+                    for left in range(len(self.model.temp_world[top])):
+                        brick = self.model.temp_world[top][left]
+                        brick.top -= self.model.vehicle.speed_y
+                        brick.rect.y = brick.top
+                self.model.fuel_station.top -= self.model.vehicle.speed_y
+                self.model.fuel_station.rect.y = self.model.fuel_station.top
+                self.model.shop.top -= self.model.vehicle.speed_y
+                self.model.shop.rect.y = self.model.shop.top
+                self.model.workshop.top -= self.model.vehicle.speed_y
+                self.model.workshop.rect.y = self.model.workshop.top
+
+
+            elif self.model.can_move_down and not keys[pygame.K_UP]:    
+                for top in range(len(self.model.temp_world)):
+                    for left in range(len(self.model.temp_world[top])):
+                        brick = self.model.temp_world[top][left]
+                        brick.top -= self.model.vehicle.speed_y
+                        brick.rect.y = brick.top
+
+
+                self.model.fuel_station.top -= self.model.vehicle.speed_y
+
+                self.model.fuel_station.rect.y = self.model.fuel_station.top
+
+                self.model.shop.top -= self.model.vehicle.speed_y
+                self.model.shop.rect.y = self.model.shop.top
+
+                self.model.workshop.top -= self.model.vehicle.speed_y
+                self.model.workshop.rect.y = self.model.workshop.top
+
+                self.model.vehicle.speed_y = self.model.vehicle.speed_y + self.model.vehicle.gravity
+                if self.model.vehicle.speed_y > 12:
+                    self.model.vehicle.speed_y -=.5
+
+
+            if not self.model.can_move_down and event.type != KEYDOWN:
+                self.model.vehicle.speed_y = 0
+            if not self.model.vehicle.can_drill_left and not self.model.vehicle.can_drill_right and event.type != KEYDOWN:
+                self.model.vehicle.speed_x = 0
+
+            
+          
+            #self.view.draw()
+            self.model.fuel -= 1 #decrease fuel value every frame
+            self.view.draw()
+        return
+      
+  
+
+#clock = pygame.time.Clock()
 
 if __name__ == '__main__':
     
   
-  	#predefines speed and thurster + gravity values
-  	#defines model and view class as objects
-    speed_y = 0;
-    speed_x=0;
-    gravity = 0.25;
-    thruster = -0.05
-    thruster_x = .025
+   
     pygame.init()
     size = (640, 480)
     screen = pygame.display.set_mode(size)
     model = game_model.BrickModel()
     view = GameViewer(model, screen)
+    controller = KeyboardController(model,view)
     
+    controller.handle_event()   
 
-    running = True
-    #for loop that runs the game
-    while running:
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                running = False
-
-        if model.fuel < 0:
-            running = False
-
-        #checks if the world should enlarge
-        if model.temp_world[-1][0].top >= model.FAR_BOTTOM and model.temp_world[-1][0].top < model.FAR_BOTTOM + 40: 
-            mistake = model.FAR_BOTTOM - model.temp_world[-1][0].top
-            model.world_enlarger("down")
-
-        #checks for key press 
-        keys = pygame.key.get_pressed()
-
-
-        if keys[pygame.K_UP] and model.vehicle.can_move_up:
-
-            for top in range(len(model.temp_world)):
-                for left in range(len(model.temp_world[top])):
-                        brick = model.temp_world[top][left]
-                        brick.top -= speed_y
-                        brick.rect.y = brick.top
-            model.fuel_station.top -= speed_y
-            model.fuel_station.rect.y = model.fuel_station.top
-            model.shop.top -= speed_y
-            model.shop.rect.y = model.shop.top
-            model.workshop.top -= speed_y
-            model.workshop.rect.y = model.workshop.top
-
-            speed_y = speed_y + thruster;   
-
-            if speed_y > 1:
-                speed_y = 0
-            elif speed_y > 10:
-                speed_y = 10
-        elif keys[pygame.K_UP] and not model.vehicle.can_move_up:
-            speed_y = 0
-
-
-        if keys[pygame.K_LEFT] and not model.vehicle.can_drill_left and not model.vehicle.can_move_left:
-            pass
-        elif keys[pygame.K_LEFT] and model.vehicle.can_drill_left:
-            speed_x = .7
-            #loops through the game model and moves all the blocks appropriately based off of key press
-            for top in range(len(model.temp_world)):
-                for left in range(len(model.temp_world[top])):
-                    brick = model.temp_world[top][left]
-                    brick.left += speed_x
-                    brick.rect.x = brick.left
-            #moves all game objects appropriately bassed off of key presses
-            model.fuel_station.left += speed_x
-            model.fuel_station.rect.x = model.fuel_station.left
-            model.shop.left += speed_x
-            model.shop.rect.x = model.shop.left
-            model.workshop.left += speed_x
-            model.workshop.rect.x = model.workshop.left
-
-        elif keys[pygame.K_LEFT] and model.vehicle.can_move_left:
-            speed_x = 2
-            for top in range(len(model.temp_world)):
-                for left in range(len(model.temp_world[top])):
-                    brick = model.temp_world[top][left]
-                    brick.left += speed_x
-                    brick.rect.x = brick.left
-            model.fuel_station.left += speed_x
-            model.fuel_station.rect.x = model.fuel_station.left
-            model.shop.left += speed_x
-            model.shop.rect.x = model.shop.left
-            model.workshop.left += speed_x
-            model.workshop.rect.x = model.workshop.left
-
-            speed_x = speed_x + thruster_x;   
-
-            if speed_x > 1:
-                speed_x = 0
-            elif speed_x > 10:
-                speed_x = 10
-
-        if keys[pygame.K_RIGHT] and model.vehicle.can_drill_right:
-                
-            speed_x = .7
-            for top in range(len(model.temp_world)):
-                for left in range(len(model.temp_world[top])):
-                    brick = model.temp_world[top][left]
-                    brick.left -= speed_x
-                    brick.rect.x = brick.left
-            model.fuel_station.left -= speed_x
-            model.fuel_station.rect.x = model.fuel_station.left
-            model.shop.left -= speed_x
-            model.shop.rect.x = model.shop.left
-            model.workshop.left -= speed_x
-            model.workshop.rect.x = model.workshop.left
-
-        elif keys[pygame.K_RIGHT] and model.vehicle.can_move_right:
-            speed_x = 2
-            for top in range(len(model.temp_world)):
-                for left in range(len(model.temp_world[top])):
-                    brick = model.temp_world[top][left]
-                    brick.left -= speed_x
-                    brick.rect.x = brick.left
-
-            model.fuel_station.left -= speed_x
-            model.fuel_station.rect.x = model.fuel_station.left
-            model.shop.left -= speed_x
-            model.shop.rect.x = model.shop.left
-            model.workshop.left -= speed_x
-            model.workshop.rect.x = model.workshop.left
-
-            speed_x = speed_x + thruster_x;   
-
-            if speed_x > 1:
-                speed_x = 0
-            elif speed_x > 10:
-                speed_x = 10
-
-
-        elif keys[pygame.K_DOWN] and not model.can_move_down and model.vehicle.can_drill_down:
-            speed_y = .7
-            for top in range(len(model.temp_world)):
-                for left in range(len(model.temp_world[top])):
-                    brick = model.temp_world[top][left]
-                    brick.top -= speed_y
-                    brick.rect.y = brick.top
-            model.fuel_station.top -= speed_y
-            model.fuel_station.rect.y = model.fuel_station.top
-            model.shop.top -= speed_y
-            model.shop.rect.y = model.shop.top
-            model.workshop.top -= speed_y
-            model.workshop.rect.y = model.workshop.top
-
-
-        elif model.can_move_down and not keys[pygame.K_UP]:    
-            for top in range(len(model.temp_world)):
-                for left in range(len(model.temp_world[top])):
-                    brick = model.temp_world[top][left]
-                    brick.top -= speed_y
-                    brick.rect.y = brick.top
-
-
-            model.fuel_station.top -= speed_y
-
-            model.fuel_station.rect.y = model.fuel_station.top
-
-            model.shop.top -= speed_y
-            model.shop.rect.y = model.shop.top
-
-            model.workshop.top -= speed_y
-            model.workshop.rect.y = model.workshop.top
-
-            speed_y = speed_y + gravity
-            if speed_y > 12:
-                speed_y -=.5
-
-
-        if not model.can_move_down and event.type != KEYDOWN:
-            speed_y = 0
-        if not model.vehicle.can_drill_left and not model.vehicle.can_drill_right and event.type != KEYDOWN:
-            speed_x = 0
+    
+      
 
         
-        model.fuel -= 1 #decrease fuel value every frame
-        view.draw()
-              
+            
+                  
